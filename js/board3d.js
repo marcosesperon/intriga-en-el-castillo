@@ -468,6 +468,13 @@ const Board3D = {
         this._controls.minPolarAngle = 0.3;
         this._controls.enablePan = true;
         this._controls.screenSpacePanning = true;
+        // Touch: one-finger rotate, two-finger zoom, disable pan on touch to avoid conflicts
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            this._controls.touches = {
+                ONE: THREE.TOUCH.ROTATE,
+                TWO: THREE.TOUCH.DOLLY_ROTATE
+            };
+        }
         if (CastleLayout && CastleLayout.current) {
             let maxExt = 0;
             for (const p of CastleLayout.current.roomPositions) {
@@ -5637,15 +5644,19 @@ const Board3D = {
             this._clickTargets.push(plane);
         }
 
-        // ── Distinguish click vs drag (OrbitControls) ──
-        let _downX = 0, _downY = 0;
-        const DRAG_THRESHOLD = 6; // px – anything beyond this is a drag
+        // ── Distinguish click/tap vs drag (OrbitControls) ──
+        let _downX = 0, _downY = 0, _downTime = 0;
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const DRAG_THRESHOLD = isTouchDevice ? 15 : 6; // larger threshold for touch
         this._renderer.domElement.addEventListener('pointerdown', (e) => {
             _downX = e.clientX; _downY = e.clientY;
+            _downTime = Date.now();
         });
-        this._renderer.domElement.addEventListener('click', (e) => {
+        // Use pointerup for more reliable touch handling
+        this._renderer.domElement.addEventListener('pointerup', (e) => {
             const dx = e.clientX - _downX, dy = e.clientY - _downY;
             if (dx * dx + dy * dy > DRAG_THRESHOLD * DRAG_THRESHOLD) return; // was a drag
+            if (Date.now() - _downTime > 500) return; // long press, not a tap
             const rect = this._cachedRect || this._renderer.domElement.getBoundingClientRect();
             this._mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
             this._mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
