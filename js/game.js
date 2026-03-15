@@ -13,6 +13,9 @@ const Game = {
         if (SECRET_PASSAGES[cp.roomIndex] === roomIndex && GameState.canUseSecretPassage(cp.id)) {
             GameState.useSecretPassage(cp.id);
             GameState.addLog(t('log.usedSecretPassage', { room: tr(roomIndex) }));
+            if (typeof Board3D !== 'undefined' && Board3D._camera) {
+                Board3D.focusOnRoom(roomIndex);
+            }
             UI.updateLog();
             this.afterMove();
             return;
@@ -22,6 +25,11 @@ const Game = {
         if (!GameState.canMoveTo(cp.id, roomIndex)) return;
         GameState.movePlayer(cp.id, roomIndex);
         GameState.addLog(t('log.movedTo', { room: tr(roomIndex) }));
+
+        // Focus camera on player's new position
+        if (typeof Board3D !== 'undefined' && Board3D._camera) {
+            Board3D.focusOnRoom(roomIndex);
+        }
 
         if (GameState.movesRemaining <= 0) {
             UI.updateLog();
@@ -49,6 +57,10 @@ const Game = {
             return;
         }
         GameState.phase = PHASES.ACTION_CHOICE;
+        // Unfocus camera when movement ends and action phase begins
+        if (typeof Board3D !== 'undefined' && Board3D._camera) {
+            Board3D.unfocusCamera();
+        }
         Board.updateHighlights();
         Board.draw();
         UI.updateHUD();

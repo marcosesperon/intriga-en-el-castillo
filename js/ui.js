@@ -185,9 +185,9 @@ const UI = {
                     <div class="bot-thinking-text">${t('phase.botThinking', { name: cp.name })}<span class="thinking-dots">...</span></div>
                 </div>
             `;
-            // Close action drawer on mobile during bot turns
-            if (typeof MobileUI !== 'undefined' && MobileUI.isMobile() && MobileUI._activeDrawer === 'action') {
-                MobileUI.closeAll();
+            // Hide floating action panel on mobile during bot turns
+            if (typeof MobileUI !== 'undefined' && MobileUI.isMobile()) {
+                panel.classList.remove('mobile-floating');
             }
             return;
         }
@@ -319,11 +319,15 @@ const UI = {
 
         panel.innerHTML = html;
 
-        // Auto-open action drawer on mobile when human has an action
+        // Auto-show floating action panel on mobile (non-blocking)
         if (isHuman && typeof MobileUI !== 'undefined' && MobileUI.isMobile()) {
             const actionPhases = [PHASES.ROLL_DICE, PHASES.ACTION_CHOICE, PHASES.MOVING];
-            if (actionPhases.includes(phase) && MobileUI._activeDrawer !== 'action') {
-                MobileUI.toggle('action');
+            if (actionPhases.includes(phase)) {
+                // Show as floating panel without blocking 3D interaction
+                panel.classList.add('mobile-floating');
+                panel.style.display = '';
+            } else {
+                panel.classList.remove('mobile-floating');
             }
         }
     },
@@ -509,9 +513,7 @@ const UI = {
         }
 
         this.showDiceAnimation(val, () => {
-            if (typeof Board3D !== 'undefined' && Board3D._camera) {
-                Board3D.unfocusCamera();
-            }
+            // Keep camera focused on player during movement phase
             Board.updateHighlights();
             Board.draw();
             this.updateHUD();

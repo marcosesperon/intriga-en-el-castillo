@@ -2544,13 +2544,13 @@ body {
         flex-shrink: 0;
     }
 
-    /* ── Action panel floats above nav when active ── */
+    /* ── Action panel floats above nav when active (non-blocking) ── */
     #action-panel.mobile-floating {
         position: fixed;
         bottom: 48px;
         left: 0;
         right: 0;
-        background: rgba(20, 16, 10, 0.97);
+        background: rgba(20, 16, 10, 0.92);
         border-top: 2px solid #FFD700;
         border-radius: 12px 12px 0 0;
         z-index: 17;
@@ -2558,6 +2558,7 @@ body {
         max-height: 40dvh;
         overflow-y: auto;
         padding: 12px;
+        pointer-events: auto;
     }
 
     /* ── Overlays: full screen on mobile ── */
@@ -2877,20 +2878,22 @@ const MobileUI = {
         this.closeAll(true); // close without transition reset
         this._activeDrawer = panel;
 
-        const backdrop = document.getElementById('mobile-backdrop');
-        backdrop.classList.add('active');
-
         // Highlight active nav button
         document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.panel === panel);
         });
 
+        // Action panel is non-blocking (no backdrop, castle stays interactive)
+        const backdrop = document.getElementById('mobile-backdrop');
+        if (panel !== 'action') {
+            backdrop.classList.add('active');
+        }
+
         if (panel === 'action') {
-            const lp = document.getElementById('left-panel');
-            // Show only action-panel content
-            this._setLeftSections(false);
-            document.getElementById('action-panel').style.display = '';
-            lp.classList.add('mobile-open');
+            // Float action panel above nav without blocking 3D interaction
+            const ap = document.getElementById('action-panel');
+            ap.classList.add('mobile-floating');
+            ap.style.display = '';
         } else if (panel === 'cards') {
             const lp = document.getElementById('left-panel');
             // Show players, cards, inventory, narrative — hide action
@@ -2920,7 +2923,10 @@ const MobileUI = {
         // Restore left panel sections
         this._setLeftSections(true);
         const ap = document.getElementById('action-panel');
-        if (ap) ap.style.display = '';
+        if (ap) {
+            ap.classList.remove('mobile-floating');
+            ap.style.display = '';
+        }
     },
 
     _setLeftSections(visible) {

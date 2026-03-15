@@ -468,12 +468,13 @@ const Board3D = {
         this._controls.minPolarAngle = 0.3;
         this._controls.enablePan = true;
         this._controls.screenSpacePanning = true;
-        // Touch: one-finger rotate, two-finger zoom, disable pan on touch to avoid conflicts
+        // Touch: one-finger rotate, two-finger zoom+pan
         if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
             this._controls.touches = {
                 ONE: THREE.TOUCH.ROTATE,
-                TWO: THREE.TOUCH.DOLLY_ROTATE
+                TWO: THREE.TOUCH.DOLLY_PAN
             };
+            this._controls.panSpeed = 0.8;
         }
         if (CastleLayout && CastleLayout.current) {
             let maxExt = 0;
