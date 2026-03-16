@@ -2552,19 +2552,21 @@ body {
         pointer-events: auto;
     }
 
-    /* ── Overlays: full screen on mobile ── */
+    /* ── Overlays: centered with margin on mobile ── */
     .overlay {
         position: fixed !important;
         inset: 0 !important;
         z-index: 20 !important;
         grid-area: unset !important;
+        padding: 12px;
+        box-sizing: border-box;
     }
     .overlay-panel {
-        max-width: 100vw;
-        max-height: 100vh;
-        max-height: 100dvh;
+        max-width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
         width: 100%;
-        border-radius: 0;
+        border-radius: 12px;
         padding: 24px 16px 20px;
     }
     .overlay-title { font-size: 18px; }
@@ -2580,20 +2582,20 @@ body {
     .fan-carousel { padding: 0 4px; }
 
     /* Notebook overlay */
-    #notebook-panel { width: 100%; padding: 16px 12px; }
+    #notebook-panel { width: 100%; padding: 16px 12px; border-radius: 12px; }
     .notebook-columns { flex-direction: column; gap: 8px; }
 
     /* Help overlay */
-    #help-panel { width: 100%; padding: 20px 14px; }
+    #help-panel { width: 100%; padding: 20px 14px; border-radius: 12px; }
 
     /* Result overlay */
-    #result-panel { min-width: unset; width: 95%; }
+    #result-panel { min-width: unset; width: 100%; border-radius: 12px; }
 
     /* Room action overlay */
-    #roomaction-panel { min-width: unset; width: 95%; padding: 20px 14px; }
+    #roomaction-panel { min-width: unset; width: 100%; padding: 20px 14px; border-radius: 12px; }
 
     /* Event overlay */
-    #event-panel { min-width: unset; width: 95%; }
+    #event-panel { min-width: unset; width: 100%; border-radius: 12px; }
 
     /* Dice overlay: full screen on mobile */
     .dice-overlay {
@@ -2603,21 +2605,26 @@ body {
         z-index: 20 !important;
     }
 
-    /* Event toast: full screen on mobile, hidden when inactive */
+    /* Event toast on mobile */
     #event-toast {
         position: fixed !important;
         inset: 0 !important;
         grid-area: unset !important;
         z-index: 20 !important;
         display: none !important;
+        padding: 12px;
+        box-sizing: border-box;
     }
     #event-toast.active {
         display: flex !important;
     }
     .event-toast-inner {
         min-width: unset;
-        max-width: 95vw;
+        max-width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
         padding: 24px 16px 20px;
+        border-radius: 12px;
     }
 
     /* ── Mini notebook in drawer: wider rows ── */
