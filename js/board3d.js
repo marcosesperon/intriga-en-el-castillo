@@ -454,6 +454,7 @@ const Board3D = {
         this._css2dRenderer.domElement.style.top = '0';
         this._css2dRenderer.domElement.style.left = '0';
         this._css2dRenderer.domElement.style.pointerEvents = 'none';
+        this._css2dRenderer.domElement.style.zIndex = '1';
         container.appendChild(this._css2dRenderer.domElement);
     },
 

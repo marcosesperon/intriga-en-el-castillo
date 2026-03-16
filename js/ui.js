@@ -8,7 +8,26 @@ function closeOverlay(id, callback) {
     setTimeout(() => { el.classList.remove('active', 'closing'); if (callback) callback(); }, 400);
 }
 
-// Parchment roll helpers — wrap content in scrollable area + add roll divs
+// Wrap overlay panel content into header / scrollable body / footer structure
+function wrapOverlayBody(panel) {
+    const title = panel.querySelector('.overlay-title');
+    const buttons = panel.querySelector('.overlay-buttons');
+    const body = document.createElement('div');
+    body.className = 'overlay-body';
+    // Move all children between title and buttons into body
+    const children = Array.from(panel.children);
+    for (const child of children) {
+        if (child === title || child === buttons) continue;
+        body.appendChild(child);
+    }
+    // Reassemble: title, body, buttons
+    panel.innerHTML = '';
+    if (title) panel.appendChild(title);
+    panel.appendChild(body);
+    if (buttons) panel.appendChild(buttons);
+}
+
+// Parchment roll helpers (legacy — kept for reference)
 function addParchmentRolls(panel) {
     // Wrap all existing children into a scrollable content div
     const wrapper = document.createElement('div');
@@ -924,6 +943,7 @@ const UI = {
                 <button class="btn-danger" id="accusation-confirm-btn" disabled onclick="UI.confirmAccusation()">${t('btn.accuse_action')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
         this._bindCardPicker(panel, 'accusation-confirm-btn');
         document.getElementById('accusation-overlay').classList.add('active');
         this.updateHUD();
@@ -1061,7 +1081,7 @@ const UI = {
                 <button class="btn-secondary" onclick="UI.closeNotebook()">${t('btn.close')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
 
         // Bind mark clicks
         panel.querySelectorAll('.notebook-mark').forEach(el => {
@@ -1185,7 +1205,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
         this.updateLog();
     },
@@ -1212,7 +1232,7 @@ const UI = {
                 <button class="btn-secondary" onclick="UI.cancelRoomAction()">${t('btn.cancel')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         // Bind book clicks
@@ -1254,7 +1274,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         this.updateLog();
     },
 
@@ -1284,7 +1304,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
         this.updateLog();
     },
@@ -1321,7 +1341,7 @@ const UI = {
                 <button class="btn-primary" id="capilla-confirm" disabled onclick="UI.confirmCapilla()">${t('btn.ask')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         // Selection state
@@ -1394,7 +1414,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         this.updateLog();
     },
 
@@ -1424,7 +1444,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
         this.updateLog();
     },
@@ -1489,7 +1509,7 @@ const UI = {
                 <button class="btn-primary" id="mazmorras-confirm" disabled onclick="UI.confirmMazmorras()">${t('btn.interrogate')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         // Selection state
@@ -1539,7 +1559,7 @@ const UI = {
                         <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
                     </div>
                 `;
-                addParchmentRolls(panel);
+                wrapOverlayBody(panel);
                 return;
             }
             const card = target.cards[Math.floor(Math.random() * target.cards.length)];
@@ -1563,7 +1583,7 @@ const UI = {
                     <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
                 </div>
             `;
-            addParchmentRolls(panel);
+            wrapOverlayBody(panel);
             // Trigger flip animation
             setTimeout(() => {
                 const flipEl = panel.querySelector('.card-flip');
@@ -1595,7 +1615,7 @@ const UI = {
                     <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
                 </div>
             `;
-            addParchmentRolls(panel);
+            wrapOverlayBody(panel);
         }
         this.updateLog();
     },
@@ -1628,7 +1648,7 @@ const UI = {
                     <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
                 </div>`;
         }
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
         this.updateLog();
     },
@@ -1658,7 +1678,7 @@ const UI = {
             <div class="overlay-buttons">
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>`;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
         this.updateLog();
     },
@@ -1681,7 +1701,7 @@ const UI = {
             <div class="overlay-buttons">
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>`;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
         this.updateLog();
     },
@@ -1713,7 +1733,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeRoomAction()">${t('btn.continue')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
         this.updateLog();
     },
@@ -1739,7 +1759,7 @@ const UI = {
                 <button class="btn-secondary" onclick="UI.cancelRoomAction()">${t('btn.cancel')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         panel.querySelectorAll('[data-cat]').forEach(el => {
@@ -1779,7 +1799,7 @@ const UI = {
                 <button class="btn-primary" id="capilla-confirm" disabled onclick="UI.confirmCapilla()">${t('btn.ask')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         // Selection state (reuse same logic as core capilla)
@@ -1842,7 +1862,7 @@ const UI = {
                 <button class="btn-primary" id="mazmorras-confirm" disabled onclick="UI.confirmMazmorras()">${t('btn.interrogate')}</button>
             </div>
         `;
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         // Selection state (reuse same logic as core mazmorras)
@@ -1910,6 +1930,7 @@ const UI = {
                 <button class="btn-secondary" onclick="UI.closeAbility()">${t('btn.cancel')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
     },
 
@@ -1933,6 +1954,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeAbility()">${t('btn.continue')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
         this.updateLog();
         this.updateMiniNotebook();
     },
@@ -1960,6 +1982,7 @@ const UI = {
                 <button class="btn-primary" id="chantaje-confirm" disabled onclick="UI.confirmChantaje()">${t('btn.confirm')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         this._chantajePlayer = null;
@@ -1990,6 +2013,7 @@ const UI = {
                     <button class="btn-primary" onclick="UI.closeAbility()">${t('btn.continue')}</button>
                 </div>
             `;
+            wrapOverlayBody(panel);
             return;
         }
         const card = target.cards[Math.floor(Math.random() * target.cards.length)];
@@ -2011,6 +2035,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.closeAbility()">${t('btn.continue')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
         setTimeout(() => {
             const flipEl = panel.querySelector('.card-flip');
             if (flipEl) flipEl.classList.add('flipped');
@@ -2063,6 +2088,7 @@ const UI = {
         html += '<div class="overlay-buttons"><button class="btn-secondary" onclick="UI.cancelRoomAction()">' + t('btn.cancel') + '</button></div>';
 
         panel.innerHTML = html;
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
     },
 
@@ -2092,6 +2118,7 @@ const UI = {
         html += '</div>';
         html += '<div class="overlay-buttons"><button class="btn-secondary" onclick="UI.openUseItem()">' + t('btn.cancel') + '</button></div>';
         panel.innerHTML = html;
+        wrapOverlayBody(panel);
     },
 
     _executeUseItem(itemId, targetId) {
@@ -2116,6 +2143,7 @@ const UI = {
         html += '</div>';
         html += '<div class="overlay-buttons"><button class="btn-primary" onclick="UI.closeAbility()">' + t('btn.continue') + '</button></div>';
         panel.innerHTML = html;
+        wrapOverlayBody(panel);
 
         if (result.revealedCard) {
             setTimeout(() => {
@@ -2165,6 +2193,7 @@ const UI = {
         }
 
         panel.innerHTML = html;
+        wrapOverlayBody(panel);
         document.getElementById('roomaction-overlay').classList.add('active');
 
         this._pickupCallback = callback;
@@ -2237,6 +2266,7 @@ const UI = {
         const overlay = document.getElementById('event-toast');
         panel.className = 'overlay-panel' + (variantClass ? ' ' + variantClass : '');
         panel.innerHTML = html;
+        wrapOverlayBody(panel);
         overlay.classList.add('active');
         if (boardEffect) boardEffect();
 
@@ -2376,17 +2406,16 @@ const UI = {
     showJuicioRealInteraction(target, callback) {
         if (target.cards.length === 0) { callback(); return; }
         const panel = document.getElementById('event-panel');
-        let html = '<div class="parchment-roll-top"></div><div class="parchment-content">';
-        html += '<div style="text-align:center"><div class="event-emoji" style="font-size:28px">\u{2696}\u{FE0F}</div>';
-        html += '<div class="event-name" style="font-size:18px">' + t('major.juicio_real.name') + '</div></div>';
+        let html = '<div class="overlay-title">\u{2696}\u{FE0F} ' + t('major.juicio_real.name') + '</div>';
         html += '<hr class="parchment-divider">';
         html += '<p style="text-align:center;color:#c4a878">' + t('major.juicioChooseCard') + '</p>';
         html += '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px">';
         for (const card of target.cards) {
             html += '<button class="btn-primary juicio-card-btn" data-card="' + card + '" style="padding:8px 12px;font-size:13px">' + tc(card) + '</button>';
         }
-        html += '</div></div><div class="parchment-roll-bottom"></div>';
+        html += '</div>';
         panel.innerHTML = html;
+        wrapOverlayBody(panel);
         const overlay = document.getElementById('event-overlay');
         overlay.classList.remove('hidden');
         overlay.classList.add('active');
@@ -2413,34 +2442,33 @@ const UI = {
         const roomOpts = ROOM_NAMES.map((r, i) => '<option value="' + i + '">' + tr(i) + '</option>').join('');
         const catOpts = ['conspiradores', 'metodos', 'lugares', 'motivos'].map(c => '<option value="' + c + '">' + GameState.getCategoryLabel(c) + '</option>').join('');
         const panel = document.getElementById('event-panel');
-        let html = '<div class="parchment-roll-top"></div><div class="parchment-content">';
-        html += '<div style="text-align:center;position:relative;z-index:1"><div class="event-emoji" style="font-size:28px">' + event.emoji + '</div><div class="event-name" style="font-size:18px">' + t('event.' + event.id + '.name') + '</div></div>';
+        let html = '<div class="overlay-title">' + event.emoji + ' ' + t('event.' + event.id + '.name') + '</div>';
         html += '<hr class="parchment-divider">';
 
         switch (event.effect) {
             case 'puertas_cerradas':
-                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0;position:relative;z-index:1">' + t('eventUI.chooseRoom') + '</div>';
+                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0">' + t('eventUI.chooseRoom') + '</div>';
                 html += '<div class="overlay-row"><label>' + t('eventUI.room') + '</label><select id="event-room">' + roomOpts + '</select></div>';
                 html += '<div class="overlay-buttons"><button class="btn-primary" id="event-confirm">' + t('btn.block') + '</button></div>';
                 break;
             case 'inspeccion':
             case 'experimento':
-                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0;position:relative;z-index:1">' + t('eventUI.choosePlayer') + '</div>';
+                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0">' + t('eventUI.choosePlayer') + '</div>';
                 html += '<div class="overlay-row"><label>' + t('eventUI.player') + '</label><select id="event-player">' + playerOpts + '</select></div>';
                 html += '<div class="overlay-buttons"><button class="btn-primary" id="event-confirm">' + t('btn.confirm') + '</button></div>';
                 break;
             case 'negociacion':
-                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0;position:relative;z-index:1">' + t('eventUI.chooseExchange') + '</div>';
+                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0">' + t('eventUI.chooseExchange') + '</div>';
                 html += '<div class="overlay-row"><label>' + t('eventUI.player') + '</label><select id="event-player">' + playerOpts + '</select></div>';
                 html += '<div class="overlay-buttons"><button class="btn-primary" id="event-confirm">' + t('btn.exchange') + '</button></div>';
                 break;
             case 'guardias_repos':
-                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0;position:relative;z-index:1">' + t('eventUI.chooseGuards') + '</div>';
+                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0">' + t('eventUI.chooseGuards') + '</div>';
                 html += '<div class="overlay-row"><label>' + t('eventUI.room') + '</label><select id="event-room">' + roomOpts + '</select></div>';
                 html += '<div class="overlay-buttons"><button class="btn-primary" id="event-confirm">' + t('btn.confirm') + '</button></div>';
                 break;
             case 'confesion':
-                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0;position:relative;z-index:1">' + t('eventUI.choosePlayerCat') + '</div>';
+                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0">' + t('eventUI.choosePlayerCat') + '</div>';
                 html += '<div class="overlay-row"><label>' + t('eventUI.player') + '</label><select id="event-player">' + playerOpts + '</select></div>';
                 html += '<div class="overlay-row"><label>' + t('eventUI.category') + '</label><select id="event-cat">' + catOpts + '</select></div>';
                 html += '<div class="overlay-buttons"><button class="btn-primary" id="event-confirm">' + t('btn.ask') + '</button></div>';
@@ -2448,10 +2476,10 @@ const UI = {
             case 'audiencia': {
                 const decls = GameState._eventDeclarations || [];
                 let declHtml = '';
-                for (let d of decls) declHtml += '<div style="font-size:13px;color:#6b4423;margin:2px 0;position:relative;z-index:1">' + d + '</div>';
+                for (let d of decls) declHtml += '<div style="font-size:13px;color:#6b4423;margin:2px 0">' + d + '</div>';
                 const allCards = [...CARDS.conspiradores, ...CARDS.metodos, ...CARDS.motivos];
                 const cardOpts = allCards.map(c => '<option value="' + c + '">' + tc(c) + '</option>').join('');
-                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0;position:relative;z-index:1">' + t('eventUI.publicDeclarations') + '</div>';
+                html += '<div style="text-align:center;font-size:13px;color:#6d5a3f;margin:8px 0">' + t('eventUI.publicDeclarations') + '</div>';
                 html += declHtml;
                 html += '<div style="margin-top:12px"><div class="overlay-row"><label>' + t('eventUI.yourDeclaration') + '</label><select id="event-declare">' + cardOpts + '</select></div></div>';
                 html += '<div class="overlay-buttons"><button class="btn-primary" id="event-confirm">' + t('btn.declare') + '</button></div>';
@@ -2459,8 +2487,8 @@ const UI = {
             }
         }
 
-        html += '</div><div class="parchment-roll-bottom"></div>';
         panel.innerHTML = html;
+        wrapOverlayBody(panel);
         document.getElementById('event-overlay').classList.add('active');
         document.getElementById('event-confirm').addEventListener('click', () => {
             this.resolveEventInteraction(event, callback);
@@ -2566,9 +2594,7 @@ const UI = {
                 GameState.addLog(t('log.confession', { text: clue.text }));
                 const panel = document.getElementById('event-panel');
                 panel.innerHTML = `
-                    <div class="parchment-roll-top"></div>
-                    <div class="parchment-content">
-                    <div style="text-align:center;position:relative;z-index:1"><div class="event-emoji" style="font-size:28px">${event.emoji}</div><div class="event-name" style="font-size:18px">${t('overlay.confession')}</div></div>
+                    <div class="overlay-title">${event.emoji} ${t('overlay.confession')}</div>
                     <hr class="parchment-divider">
                     <div class="clue-result interrogatorio">
                         <span class="clue-label">${t('clueLabel.confesion')}</span>
@@ -2576,9 +2602,8 @@ const UI = {
                         <div style="font-size:24px;font-weight:bold;color:${answerColor};margin-top:8px">${answer}</div>
                     </div>
                     <div class="overlay-buttons"><button class="btn-primary" id="event-continue-btn">${t('btn.continue')}</button></div>
-                    </div>
-                    <div class="parchment-roll-bottom"></div>
                 `;
+                wrapOverlayBody(panel);
                 document.getElementById('event-continue-btn').addEventListener('click', () => {
                     closeOverlay('event-overlay', () => {
                         Board.draw(); UI.updateLog(); UI.updateMiniNotebook(); callback();
@@ -2601,16 +2626,13 @@ const UI = {
         const panel = document.getElementById('event-panel');
         const cardHtml = card ? '<div class="card-flip-container"><div class="card-flip">' + tc(card) + '</div></div>' : '';
         panel.innerHTML = `
-            <div class="parchment-roll-top"></div>
-            <div class="parchment-content">
-            <div style="text-align:center;position:relative;z-index:1"><div class="event-name" style="font-size:18px">${title}</div></div>
+            <div class="overlay-title">${title}</div>
             <hr class="parchment-divider">
-            <div style="text-align:center;font-size:15px;color:#3d2b1f;margin:12px 0;line-height:1.5;position:relative;z-index:1">${text}</div>
+            <div style="text-align:center;font-size:15px;color:#3d2b1f;margin:12px 0;line-height:1.5">${text}</div>
             ${cardHtml}
             <div class="overlay-buttons"><button class="btn-primary" id="event-continue-btn">${t('btn.continue')}</button></div>
-            </div>
-            <div class="parchment-roll-bottom"></div>
         `;
+        wrapOverlayBody(panel);
         // Trigger flip
         setTimeout(() => {
             const flipEl = panel.querySelector('.card-flip');
@@ -2651,6 +2673,7 @@ const UI = {
                 <button class="btn-secondary" onclick="UI.closeHelp()">${t('btn.close')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
     },
 
     helpPrev() { if (this.helpPage > 0) { this.helpPage--; this.renderHelp(); } },
@@ -2689,6 +2712,7 @@ const UI = {
                 <button class="btn-primary" id="event-toast-continue">${t('tutorial.begin')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
         document.getElementById('event-toast').classList.add('active');
 
         document.getElementById('event-toast-continue').addEventListener('click', () => {
@@ -2730,6 +2754,7 @@ const UI = {
                 <button class="btn-primary" onclick="UI.backToMenu()">${t('btn.backToMenu')}</button>
             </div>
         `;
+        wrapOverlayBody(panel);
         document.getElementById('result-overlay').classList.add('active');
     },
 

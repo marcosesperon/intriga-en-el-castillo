@@ -38,7 +38,7 @@ const Refutation = {
                 '<div style="text-align:center;font-size:18px;color:#9B59B6;margin:20px 0">\u{1F48D} ' + t('log.itemAnillo', { name: suspector.name }) + '</div>' +
                 '<div id="refute-continue" style="text-align:center;margin-top:12px">' +
                 '<button class="btn-primary" onclick="Refutation.finish()">' + t('btn.continue') + '</button></div>';
-            addParchmentRolls(panel);
+            wrapOverlayBody(panel);
             document.getElementById('refutation-overlay').classList.add('active');
 
             // Count as unrefuted suspicion → +1 rep
@@ -81,7 +81,7 @@ const Refutation = {
             '<div id="refute-tip" style="text-align:center"></div>' +
             '<div id="refute-continue" style="text-align:center;margin-top:12px"></div>';
 
-        addParchmentRolls(panel);
+        wrapOverlayBody(panel);
         document.getElementById('refutation-overlay').classList.add('active');
         this.checkNext();
     },
