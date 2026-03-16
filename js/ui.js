@@ -2232,115 +2232,78 @@ const UI = {
     // EVENTS
     // ═══════════════════════════════════════════
 
-    showEvent(event, callback) {
-        const catLabel = t('event.cat.' + event.category);
-        const resultText = GameState._eventResultText || '';
-
-        const toast = document.getElementById('event-toast');
-        toast.innerHTML = `
-            <div class="event-toast-inner parchment-scroll">
-                <div class="parchment-roll-top"></div>
-                <div class="event-emoji">${event.emoji}</div>
-                <div class="event-name">${t('event.' + event.id + '.name')}</div>
-                <hr class="parchment-divider">
-                <div class="event-cat-label">${catLabel}</div>
-                <div class="event-desc">${t('event.' + event.id + '.desc')}</div>
-                ${resultText ? '<div class="event-result-text">' + resultText + '</div>' : ''}
-                ${GameState.helpEnabled ? '<div class="help-tip-inline" style="color:#6d5a3f">' + t('help.EVENT') + '</div>' : ''}
-                <div class="event-round">${t('event.turn', { turn: GameState.turnCounter })}</div>
-                <div class="event-toast-buttons">
-                    <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
-                </div>
-                <div class="parchment-roll-bottom"></div>
-            </div>
-        `;
-        toast.classList.remove('hidden');
-        toast.classList.add('active');
-        const cp = GameState.players && GameState.players[GameState.currentPlayerIndex];
-        if (Board.showEventEffect) Board.showEventEffect(event, cp ? cp.roomIndex : -1);
+    // Helper: show event in unified overlay system
+    _showEventOverlay(panel, html, variantClass, callback, boardEffect) {
+        const overlay = document.getElementById('event-toast');
+        panel.className = 'overlay-panel' + (variantClass ? ' ' + variantClass : '');
+        panel.innerHTML = html;
+        overlay.classList.add('active');
+        if (boardEffect) boardEffect();
 
         document.getElementById('event-toast-continue').addEventListener('click', () => {
-            const inner = toast.querySelector('.event-toast-inner');
-            inner.classList.add('closing');
             if (Board.clearEventEffects) Board.clearEventEffects();
-            setTimeout(() => {
-                toast.classList.remove('active');
-                toast.classList.add('hidden');
-                toast.innerHTML = '';
+            closeOverlay('event-toast', () => {
+                panel.className = 'overlay-panel';
+                panel.innerHTML = '';
                 if (callback) callback();
-            }, 400);
+            });
+        });
+    },
+
+    showEvent(event, callback) {
+        const panel = document.getElementById('event-toast-panel');
+        const catLabel = t('event.cat.' + event.category);
+        const resultText = GameState._eventResultText || '';
+        const html = `
+            <div class="overlay-title">${event.emoji} ${t('event.' + event.id + '.name')}</div>
+            <div class="event-cat-label">${catLabel}</div>
+            <div class="event-desc">${t('event.' + event.id + '.desc')}</div>
+            ${resultText ? '<div class="event-result-text">' + resultText + '</div>' : ''}
+            ${GameState.helpEnabled ? '<div class="help-tip-inline" style="color:#6d5a3f">' + t('help.EVENT') + '</div>' : ''}
+            <div class="event-round">${t('event.turn', { turn: GameState.turnCounter })}</div>
+            <div class="overlay-buttons">
+                <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
+            </div>
+        `;
+        const cp = GameState.players && GameState.players[GameState.currentPlayerIndex];
+        this._showEventOverlay(panel, html, '', callback, () => {
+            if (Board.showEventEffect) Board.showEventEffect(event, cp ? cp.roomIndex : -1);
         });
     },
 
     showMajorEvent(event, callback) {
-        const toast = document.getElementById('event-toast');
+        const panel = document.getElementById('event-toast-panel');
         const resultText = GameState._eventResultText || '';
-        toast.innerHTML = `
-            <div class="event-toast-inner parchment-scroll major-event">
-                <div class="parchment-roll-top"></div>
-                <div class="event-emoji" style="font-size:40px">${event.emoji}</div>
-                <div class="event-name" style="color:#E74C3C;font-size:22px">${t('major.' + event.id + '.name')}</div>
-                <hr class="parchment-divider">
-                <div class="event-cat-label" style="color:#E74C3C">${t('major.category')}</div>
-                <div class="event-desc">${t('major.' + event.id + '.desc')}</div>
-                ${resultText ? '<div class="event-result-text">' + resultText + '</div>' : ''}
-                <div class="event-round">${t('event.turn', { turn: GameState.turnCounter })}</div>
-                <div class="event-toast-buttons">
-                    <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
-                </div>
-                <div class="parchment-roll-bottom"></div>
+        const html = `
+            <div class="overlay-title" style="color:#E74C3C">${event.emoji} ${t('major.' + event.id + '.name')}</div>
+            <div class="event-cat-label" style="color:#E74C3C">${t('major.category')}</div>
+            <div class="event-desc">${t('major.' + event.id + '.desc')}</div>
+            ${resultText ? '<div class="event-result-text">' + resultText + '</div>' : ''}
+            <div class="event-round">${t('event.turn', { turn: GameState.turnCounter })}</div>
+            <div class="overlay-buttons">
+                <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
             </div>
         `;
-        toast.classList.remove('hidden');
-        toast.classList.add('active');
-        if (Board.showEventEffect) Board.showEventEffect(event, -1);
-
-        document.getElementById('event-toast-continue').addEventListener('click', () => {
-            const inner = toast.querySelector('.event-toast-inner');
-            inner.classList.add('closing');
-            if (Board.clearEventEffects) Board.clearEventEffects();
-            setTimeout(() => {
-                toast.classList.remove('active');
-                toast.classList.add('hidden');
-                toast.innerHTML = '';
-                if (callback) callback();
-            }, 400);
+        this._showEventOverlay(panel, html, 'major-event', callback, () => {
+            if (Board.showEventEffect) Board.showEventEffect(event, -1);
         });
     },
 
     showRoomEvent(roomEvt, callback) {
-        const toast = document.getElementById('event-toast');
+        const panel = document.getElementById('event-toast-panel');
         const resultText = GameState._roomEventResultText || t('roomEvent.' + roomEvt.id + '.desc');
-        toast.innerHTML = `
-            <div class="event-toast-inner parchment-scroll room-event">
-                <div class="parchment-roll-top"></div>
-                <div class="event-emoji">${roomEvt.emoji}</div>
-                <div class="event-name" style="font-size:16px">${t('roomEvent.' + roomEvt.id + '.name')}</div>
-                <hr class="parchment-divider">
-                <div class="event-cat-label">${t('roomEvent.category')}</div>
-                <div class="event-desc" style="font-size:13px">${t('roomEvent.' + roomEvt.id + '.desc')}</div>
-                ${resultText ? '<div class="event-result-text" style="font-size:12px">' + resultText + '</div>' : ''}
-                <div class="event-toast-buttons">
-                    <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
-                </div>
-                <div class="parchment-roll-bottom"></div>
+        const html = `
+            <div class="overlay-title">${roomEvt.emoji} ${t('roomEvent.' + roomEvt.id + '.name')}</div>
+            <div class="event-cat-label">${t('roomEvent.category')}</div>
+            <div class="event-desc" style="font-size:13px">${t('roomEvent.' + roomEvt.id + '.desc')}</div>
+            ${resultText ? '<div class="event-result-text" style="font-size:12px">' + resultText + '</div>' : ''}
+            <div class="overlay-buttons">
+                <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
             </div>
         `;
-        toast.classList.remove('hidden');
-        toast.classList.add('active');
         const cp2 = GameState.players && GameState.players[GameState.currentPlayerIndex];
-        if (Board.showEventEffect) Board.showEventEffect(roomEvt, cp2 ? cp2.roomIndex : -1);
-
-        document.getElementById('event-toast-continue').addEventListener('click', () => {
-            const inner = toast.querySelector('.event-toast-inner');
-            inner.classList.add('closing');
-            if (Board.clearEventEffects) Board.clearEventEffects();
-            setTimeout(() => {
-                toast.classList.remove('active');
-                toast.classList.add('hidden');
-                toast.innerHTML = '';
-                if (callback) callback();
-            }, 400);
+        this._showEventOverlay(panel, html, 'room-event', callback, () => {
+            if (Board.showEventEffect) Board.showEventEffect(roomEvt, cp2 ? cp2.roomIndex : -1);
         });
     },
 
@@ -2349,7 +2312,7 @@ const UI = {
     // ═══════════════════════════════════════════
 
     showNarrativeStart(narDef, callback) {
-        const toast = document.getElementById('event-toast');
+        const panel = document.getElementById('event-toast-panel');
         const catClass = 'narr-cat-' + narDef.category;
         const perTurnTexts = GameState._narrativePerTurnTexts || [];
         let perTurnHtml = '';
@@ -2361,68 +2324,32 @@ const UI = {
             perTurnHtml += '</div>';
             GameState._narrativePerTurnTexts = [];
         }
-        toast.innerHTML = `
-            <div class="event-toast-inner parchment-scroll narrative-event">
-                <div class="parchment-roll-top"></div>
-                <div class="event-emoji">${narDef.emoji}</div>
-                <div class="event-name">${t('narrative.' + narDef.id + '.name')}</div>
-                <hr class="parchment-divider">
-                <div class="event-cat-label ${catClass}">${t('narrative.cat.' + narDef.category)}</div>
-                <div class="event-desc">${t('narrative.' + narDef.id + '.desc')}</div>
-                <div class="narrative-duration-badge">${t('narrative.turnsLeft', { turns: narDef.duration })}</div>
-                ${perTurnHtml}
-                <div class="event-toast-buttons">
-                    <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
-                </div>
-                <div class="parchment-roll-bottom"></div>
+        const html = `
+            <div class="overlay-title">${narDef.emoji} ${t('narrative.' + narDef.id + '.name')}</div>
+            <div class="event-cat-label ${catClass}">${t('narrative.cat.' + narDef.category)}</div>
+            <div class="event-desc">${t('narrative.' + narDef.id + '.desc')}</div>
+            <div class="narrative-duration-badge">${t('narrative.turnsLeft', { turns: narDef.duration })}</div>
+            ${perTurnHtml}
+            <div class="overlay-buttons">
+                <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
             </div>
         `;
-        toast.classList.remove('hidden');
-        toast.classList.add('active');
-
-        document.getElementById('event-toast-continue').addEventListener('click', () => {
-            const inner = toast.querySelector('.event-toast-inner');
-            inner.classList.add('closing');
-            setTimeout(() => {
-                toast.classList.remove('active');
-                toast.classList.add('hidden');
-                toast.innerHTML = '';
-                if (callback) callback();
-            }, 400);
-        });
+        this._showEventOverlay(panel, html, 'narrative-event', callback);
     },
 
     showNarrativeResolution(narDef, resultText, callback) {
-        const toast = document.getElementById('event-toast');
+        const panel = document.getElementById('event-toast-panel');
         const catClass = 'narr-cat-' + narDef.category;
-        toast.innerHTML = `
-            <div class="event-toast-inner parchment-scroll narrative-resolution">
-                <div class="parchment-roll-top"></div>
-                <div class="narrative-resolved-header">${t('narrative.resolved')}</div>
-                <div class="event-emoji">${narDef.emoji}</div>
-                <div class="event-name">${t('narrative.' + narDef.id + '.name')}</div>
-                <hr class="parchment-divider">
-                <div class="event-cat-label ${catClass}">${t('narrative.cat.' + narDef.category)}</div>
-                <div class="event-desc">${resultText}</div>
-                <div class="event-toast-buttons">
-                    <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
-                </div>
-                <div class="parchment-roll-bottom"></div>
+        const html = `
+            <div class="overlay-title">${narDef.emoji} ${t('narrative.' + narDef.id + '.name')}</div>
+            <div class="narrative-resolved-header">${t('narrative.resolved')}</div>
+            <div class="event-cat-label ${catClass}">${t('narrative.cat.' + narDef.category)}</div>
+            <div class="event-desc">${resultText}</div>
+            <div class="overlay-buttons">
+                <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
             </div>
         `;
-        toast.classList.remove('hidden');
-        toast.classList.add('active');
-
-        document.getElementById('event-toast-continue').addEventListener('click', () => {
-            const inner = toast.querySelector('.event-toast-inner');
-            inner.classList.add('closing');
-            setTimeout(() => {
-                toast.classList.remove('active');
-                toast.classList.add('hidden');
-                toast.innerHTML = '';
-                if (callback) callback();
-            }, 400);
-        });
+        this._showEventOverlay(panel, html, 'narrative-resolution', callback);
     },
 
     updateNarrativeIndicator() {
@@ -2735,53 +2662,42 @@ const UI = {
     // ═══════════════════════════════════════════
 
     showTutorialIntro(callback) {
-        const toast = document.getElementById('event-toast');
-        toast.innerHTML = `
-            <div class="event-toast-inner parchment-scroll" style="max-width:500px;padding:32px 36px 24px;text-align:left">
-                <div class="parchment-roll-top"></div>
-                <div class="parchment-content" style="max-height:calc(85vh - 60px)">
-                    <div style="text-align:center;margin-bottom:6px">
-                        <div style="font-size:36px;margin-bottom:4px">🏰</div>
-                        <div class="event-name" style="font-size:19px;color:#4a2810;margin-bottom:2px">${t('tutorial.title')}</div>
-                        <div style="font-style:italic;font-size:13px;color:#7a6545;margin-bottom:10px">${t('tutorial.subtitle')}</div>
-                        <hr class="parchment-divider">
-                    </div>
-                    ${t('tutorial.intro')}
-                    <div style="margin:10px 0 6px;font-weight:bold;font-size:14px;color:#4a2810">${t('tutorial.steps.title')}</div>
-                    <div style="font-size:13px;line-height:1.7;margin-left:4px">
-                        ${t('tutorial.step.1')}<br>
-                        ${t('tutorial.step.2')}<br>
-                        ${t('tutorial.step.3')}<br>
-                        ${t('tutorial.step.4')}
-                    </div>
-                    <div style="text-align:center;font-size:13px;margin:10px 0 8px;color:#4a2810;font-weight:bold">${t('tutorial.accusation')}</div>
-                    <hr class="parchment-divider">
-                    <div style="margin:8px 0 4px;font-weight:bold;font-size:13px;color:#4a2810">${t('tutorial.tips.title')}</div>
-                    <div style="font-size:12px;line-height:1.7;margin-left:4px">
-                        • ${t('tutorial.tip.1')}<br>
-                        • ${t('tutorial.tip.2')}<br>
-                        • ${t('tutorial.tip.3')}<br>
-                        • ${t('tutorial.tip.4')}
-                    </div>
-                    <div class="event-toast-buttons" style="text-align:center;margin-top:14px">
-                        <button class="btn-primary" id="tutorial-begin-btn">${t('tutorial.begin')}</button>
-                    </div>
-                </div>
-                <div class="parchment-roll-bottom"></div>
+        const panel = document.getElementById('event-toast-panel');
+        panel.className = 'overlay-panel';
+        panel.style.textAlign = 'left';
+        panel.innerHTML = `
+            <div class="overlay-title">🏰 ${t('tutorial.title')}</div>
+            <div class="overlay-subtitle">${t('tutorial.subtitle')}</div>
+            ${t('tutorial.intro')}
+            <div style="margin:10px 0 6px;font-weight:bold;font-size:14px;color:#4a2810">${t('tutorial.steps.title')}</div>
+            <div style="font-size:13px;line-height:1.7;margin-left:4px">
+                ${t('tutorial.step.1')}<br>
+                ${t('tutorial.step.2')}<br>
+                ${t('tutorial.step.3')}<br>
+                ${t('tutorial.step.4')}
+            </div>
+            <div style="text-align:center;font-size:13px;margin:10px 0 8px;color:#4a2810;font-weight:bold">${t('tutorial.accusation')}</div>
+            <hr class="parchment-divider">
+            <div style="margin:8px 0 4px;font-weight:bold;font-size:13px;color:#4a2810">${t('tutorial.tips.title')}</div>
+            <div style="font-size:12px;line-height:1.7;margin-left:4px">
+                • ${t('tutorial.tip.1')}<br>
+                • ${t('tutorial.tip.2')}<br>
+                • ${t('tutorial.tip.3')}<br>
+                • ${t('tutorial.tip.4')}
+            </div>
+            <div class="overlay-buttons">
+                <button class="btn-primary" id="event-toast-continue">${t('tutorial.begin')}</button>
             </div>
         `;
-        toast.classList.remove('hidden');
-        toast.classList.add('active');
+        document.getElementById('event-toast').classList.add('active');
 
-        document.getElementById('tutorial-begin-btn').addEventListener('click', () => {
-            const inner = toast.querySelector('.event-toast-inner');
-            inner.classList.add('closing');
-            setTimeout(() => {
-                toast.classList.remove('active');
-                toast.classList.add('hidden');
-                toast.innerHTML = '';
+        document.getElementById('event-toast-continue').addEventListener('click', () => {
+            closeOverlay('event-toast', () => {
+                panel.className = 'overlay-panel';
+                panel.style.textAlign = '';
+                panel.innerHTML = '';
                 if (callback) callback();
-            }, 400);
+            });
         });
     },
 
