@@ -672,10 +672,12 @@ const UI = {
         }
 
         const suspHelpKey = inAdditionalRoom ? 'help.SUSPICION_START_ADDITIONAL' : 'help.SUSPICION_START';
-        const suspHelpTip = GameState.helpEnabled ? '<div class="help-tip-inline">' + t(suspHelpKey) + '</div>' : '';
+        const suspHelpTip = GameState.helpEnabled ? '<div class="help-tip-inline suspicion-help-tip">' + t(suspHelpKey) + '</div>' : '';
         panel.innerHTML =
-            '<button class="btn-secondary suspicion-cancel-btn" onclick="UI.cancelSuspicion()">' + t('btn.cancel') + '</button>' +
-            suspHelpTip +
+            '<div class="suspicion-header">' +
+                suspHelpTip +
+                '<button class="btn-secondary suspicion-cancel-btn" onclick="UI.cancelSuspicion()">' + t('btn.cancel') + '</button>' +
+            '</div>' +
             '<div class="suspicion-table">' +
                 '<div class="suspicion-table-title">' + t('suspicion.tableTitle') + '</div>' +
                 '<div class="suspicion-table-slots">' +
@@ -823,11 +825,13 @@ const UI = {
         });
 
         flyAnim.onfinish = () => {
-            // Place card on table
+            // Place card on table (clickable to undo)
             slotEl.innerHTML = this._buildTableCard(card, category) +
                 '<span class="suspicion-table-slot-label">' + t('suspicion.' + category) + '</span>';
             slotEl.classList.remove('waiting');
             slotEl.classList.add('filled');
+            slotEl.style.cursor = 'pointer';
+            slotEl.onclick = () => this._undoSlotSelection(category);
 
             const tableCard = slotEl.querySelector('.table-card');
             if (tableCard) tableCard.style.animation = 'cardLandBounce 0.3s ease-out';
@@ -863,6 +867,50 @@ const UI = {
                 this._suspicionFanAnimating = false;
             }
         };
+    },
+
+    _undoSlotSelection(category) {
+        if (this._suspicionFanAnimating) return;
+
+        // Find which step index corresponds to this category
+        const targetStep = this._suspicionSteps.findIndex(s => s.key === category);
+        if (targetStep < 0) return;
+
+        // Clear selections from this step onwards
+        for (let i = targetStep; i < this._suspicionSteps.length; i++) {
+            const key = this._suspicionSteps[i].key;
+            delete this._suspicionSelections[key];
+            const slot = document.getElementById('sus-slot-' + key);
+            if (slot && slot.classList.contains('filled')) {
+                // Don't undo auto-filled lugar in core rooms
+                if (key === 'lugar' && !this._suspicionSteps.find(s => s.key === 'lugar')) continue;
+                slot.innerHTML = '<span class="suspicion-table-slot-label">' + t('suspicion.' + key) + '</span>';
+                slot.classList.remove('filled');
+                slot.classList.add('waiting');
+                slot.style.cursor = '';
+                slot.onclick = null;
+            }
+            // Reset step dots
+            const dot = document.getElementById('sus-dot-' + i);
+            if (dot) { dot.classList.remove('completed', 'active'); }
+        }
+
+        // Set step to target
+        this._suspicionStep = targetStep;
+        const dot = document.getElementById('sus-dot-' + targetStep);
+        if (dot) dot.classList.add('active');
+        const label = document.getElementById('sus-step-label');
+        if (label) label.textContent = t(this._suspicionSteps[targetStep].labelKey);
+
+        // Hide confirm button
+        const btns = document.getElementById('sus-buttons');
+        if (btns) btns.classList.remove('visible');
+        // Remove confirm help tip if present
+        const confirmTip = btns ? btns.previousElementSibling : null;
+        if (confirmTip && confirmTip.classList.contains('help-tip-inline')) confirmTip.remove();
+
+        // Render fan for target step
+        this._renderFanStep(targetStep);
     },
 
     confirmSuspicion() {

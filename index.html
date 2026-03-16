@@ -1144,12 +1144,28 @@ body {
     pointer-events: auto;
 }
 
-/* Cancel button always visible at top-right */
+/* Suspicion header: help text + cancel button */
+.suspicion-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px 6px;
+}
+.suspicion-header .suspicion-help-tip {
+    flex: 1;
+    margin: 0;
+}
 .suspicion-cancel-btn {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    z-index: 10;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+/* Table slot clickable when filled (undo) */
+.suspicion-table-slot.filled {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.suspicion-table-slot.filled:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(255,215,0,0.3);
 }
 
 /* Fan card animations */
