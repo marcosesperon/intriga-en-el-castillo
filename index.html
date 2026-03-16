@@ -1301,21 +1301,23 @@ body {
 /* Suspicion cards shown as visual cards in refutation */
 .refute-table-cards {
     display: flex;
-    gap: 12px;
+    gap: 6px;
     justify-content: center;
     margin-bottom: 14px;
 }
 .refute-table-cards .table-card {
-    width: 75px;
-    height: 108px;
-    flex-shrink: 0;
+    width: calc((100% - 18px) / 4);
+    max-width: 75px;
+    aspect-ratio: 5/7;
+    height: auto;
+    flex-shrink: 1;
 }
 .refute-table-cards .fan-card-inner {
     padding: 6px 4px;
 }
 .refute-table-cards .fan-card-name {
-    font-size: 10px;
-    margin-top: 6px;
+    font-size: 9px;
+    margin-top: 4px;
 }
 
 /* Card flip */
@@ -2566,6 +2568,12 @@ body {
     .fan-card-name { font-size: 9px; }
     .suspicion-table-slot { width: 65px; height: 95px; }
     .suspicion-table-slot-label { font-size: 9px; }
+
+    /* Refutation cards: fit 4 cards in narrow modal */
+    .refute-table-cards { gap: 4px; }
+    .refute-table-cards .fan-card-name { font-size: 8px; }
+    .refute-fan .fan-card { width: 70px; height: 98px; }
+    .refute-fan .fan-card-name { font-size: 9px; }
     .suspicion-table-title { font-size: 14px; }
     .suspicion-table { padding: 12px 8px 8px; }
     .fan-carousel { padding: 0 4px; }
