@@ -685,16 +685,15 @@ body {
     background: radial-gradient(ellipse at center, #f5e6c8 0%, #ead8ad 40%, #d4bc82 80%, #c4a96a 100%);
     border: none;
     border-radius: 12px;
-    padding: 36px 44px 28px;
+    padding: 0 36px;
     color: #3d2b1f;
     box-shadow:
         inset 0 0 50px rgba(120,90,40,0.25),
         inset 0 0 10px rgba(90,65,20,0.15),
         0 8px 32px rgba(0,0,0,0.5);
     max-height: 85vh;
-    max-width: 90vw;
+    max-width: 520px;
     overflow-y: auto;
-    overflow: visible;
     position: relative;
     transform-origin: center center;
     animation: parchmentUnfurl 600ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -703,20 +702,32 @@ body {
     animation: parchmentFurl 400ms ease-in forwards;
 }
 
+/* ── Modal header: always visible at top ── */
 .overlay-title {
     font-size: 22px;
     color: #4a2810;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 10px;
     text-shadow: 0 1px 0 rgba(255,220,160,0.4);
+    padding: 20px 0 12px;
+    margin: 0 -36px;
+    padding-left: 36px;
+    padding-right: 36px;
+    border-bottom: 1px solid rgba(120,90,40,0.2);
+    background: radial-gradient(ellipse at center, #f5e6c8 0%, #ead8ad 60%, #d4bc82 100%);
+    border-radius: 12px 12px 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 .overlay-subtitle {
     font-size: 14px;
     color: #5c4020;
     text-align: center;
+    margin-top: 12px;
     margin-bottom: 12px;
 }
+
 .overlay-row {
     display: flex;
     align-items: center;
@@ -743,7 +754,14 @@ body {
     display: flex;
     justify-content: center;
     gap: 16px;
-    margin-top: 16px;
+    padding: 14px 36px 20px;
+    margin: 0 -36px;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background: radial-gradient(ellipse at center, #f5e6c8 0%, #ead8ad 60%, #d4bc82 100%);
+    border-top: 1px solid rgba(120,90,40,0.2);
+    border-radius: 0 0 12px 12px;
 }
 
 .btn-primary {
@@ -2558,15 +2576,23 @@ body {
         box-sizing: border-box;
     }
     .overlay-panel {
-        max-width: calc(100vw - 24px);
-        max-height: calc(100vh - 24px);
-        max-height: calc(100dvh - 24px);
-        width: 100%;
+        max-width: calc(100vw - 40px);
+        max-height: calc(100vh - 56px);
+        max-height: calc(100dvh - 56px);
+        width: calc(100% - 40px);
         border-radius: 12px;
-        padding: 24px 16px 20px;
+        padding: 0 24px;
     }
-    .overlay-title { font-size: 18px; }
+    .overlay-title {
+        font-size: 18px;
+        padding: 16px 24px 10px;
+        margin: 0 -24px;
+    }
     .overlay-subtitle { font-size: 13px; }
+    .overlay-buttons {
+        padding: 12px 24px 16px;
+        margin: 0 -24px;
+    }
 
     /* Suspicion fan: smaller cards */
     .fan-card { width: 75px; height: 108px; }
