@@ -14,7 +14,7 @@ const Game = {
             GameState.useSecretPassage(cp.id);
             GameState.addLog(t('log.usedSecretPassage', { room: tr(roomIndex) }));
             if (typeof Board3D !== 'undefined' && Board3D._camera) {
-                Board3D.focusOnRoom(roomIndex);
+                Board3D.panToRoom(roomIndex);
             }
             UI.updateLog();
             this.afterMove();
@@ -26,9 +26,9 @@ const Game = {
         GameState.movePlayer(cp.id, roomIndex);
         GameState.addLog(t('log.movedTo', { room: tr(roomIndex) }));
 
-        // Focus camera on player's new position
+        // Pan camera to player's new position (keep current zoom)
         if (typeof Board3D !== 'undefined' && Board3D._camera) {
-            Board3D.focusOnRoom(roomIndex);
+            Board3D.panToRoom(roomIndex);
         }
 
         if (GameState.movesRemaining <= 0) {

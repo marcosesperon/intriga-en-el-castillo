@@ -529,6 +529,30 @@ const Board3D = {
         this._cameraResetting = false;
     },
 
+    // Pan to room keeping current Y (zoom) — used during movement between rooms
+    panToRoom(roomIndex) {
+        const pos = this.ROOM_POSITIONS[roomIndex];
+        if (!pos || !this._camera || !this._controls) return;
+        this._cameraFocusFrom = {
+            x: this._camera.position.x,
+            y: this._camera.position.y,
+            z: this._camera.position.z
+        };
+        this._cameraFocusTargetFrom = {
+            x: this._controls.target.x,
+            y: this._controls.target.y,
+            z: this._controls.target.z
+        };
+        // Keep current camera height, just shift horizontally
+        const camY = this._camera.position.y;
+        const offsetZ = this._camera.position.z - this._controls.target.z;
+        this._cameraFocusTargetDest = { x: pos.x, y: 0, z: pos.z };
+        this._cameraFocusDest = { x: pos.x, y: camY, z: pos.z + offsetZ };
+        this._cameraFocusT = 0;
+        this._cameraFocusing = true;
+        this._cameraResetting = false;
+    },
+
     unfocusCamera() {
         this._cameraFocusing = false;
         this._resetCamera();
