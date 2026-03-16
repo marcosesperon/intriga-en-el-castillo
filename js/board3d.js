@@ -525,8 +525,8 @@ const Board3D = {
         this._cameraFocusTargetDest = { x: pos.x, y: 0, z: pos.z };
         // On mobile (portrait), zoom out more so adjacent rooms are visible
         const isMobile = window.innerWidth <= 768;
-        const focusY = isMobile ? 13 : 11;
-        const focusZOff = isMobile ? 6.5 : 5.5;
+        const focusY = isMobile ? 14.5 : 11;
+        const focusZOff = isMobile ? 7.5 : 5.5;
         this._cameraFocusDest = { x: pos.x, y: focusY, z: pos.z + focusZOff };
         this._cameraFocusT = 0;
         this._cameraFocusing = true;
