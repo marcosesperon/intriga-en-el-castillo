@@ -726,11 +726,18 @@ const UI = {
         const cards = step.cards;
         const n = cards.length;
 
-        const totalSpread = 50;
+        const totalSpread = n > 6 ? 40 : 50;
         const startAngle = -totalSpread / 2;
         const angleStep = n > 1 ? totalSpread / (n - 1) : 0;
         // Horizontal spread: cards also shift left/right from center
-        const hSpread = 55; // px per card from center
+        // Responsive: fit within available width (fan container)
+        // Account for rotation adding ~30% extra apparent width
+        const fanWidth = fan.parentElement ? fan.parentElement.clientWidth : window.innerWidth;
+        const cardW = window.innerWidth <= 600 ? 70 : 100;
+        const rotMargin = cardW * 0.55;
+        const usableWidth = fanWidth - cardW - rotMargin * 2;
+        const maxSpread = Math.max(15, usableWidth / Math.max(n - 1, 1));
+        const hSpread = Math.min(55, maxSpread);
         const centerIdx = (n - 1) / 2;
 
         fan.innerHTML = '';
@@ -753,7 +760,7 @@ const UI = {
             el.style.setProperty('--fan-rotation', trans);
             el.style.transform = trans;
             el.style.zIndex = i + 1;
-            el.style.left = 'calc(50% - 50px)';
+            el.style.left = 'calc(50% - ' + (cardW / 2) + 'px)';
             el.style.bottom = '-20px';
 
             el.innerHTML =
