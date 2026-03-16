@@ -1204,7 +1204,11 @@ const Board3D = {
         group.add(dimOverlay);
         this._roomDimOverlays[i] = dimOverlay;
 
-        // Labels removed – room name shown only in top-bar on hover
+        // Room label (CSS2D) — hidden by default, shown only on highlighted rooms
+        const label = this._createLabel(i);
+        label.visible = false;
+        group.add(label);
+        this._roomLabels[i] = label;
 
         this._scene.add(group);
         this._rooms[i] = group;
@@ -5843,6 +5847,7 @@ const Board3D = {
             if (this._roomWalls[i]) this._roomWalls[i].emissiveIntensity = 0;
             if (this._roomLights[i]) this._roomLights[i].intensity = 0;
             if (this._roomDimOverlays[i]) this._roomDimOverlays[i].material.opacity = 0;
+            if (this._roomLabels[i]) this._roomLabels[i].visible = false;
         }
     },
 
@@ -6047,7 +6052,17 @@ const Board3D = {
     },
 
     _updateLabels() {
-        // Labels removed from 3D map – nothing to update
+        // Show labels only on highlighted rooms (+ secret passage) and current player room
+        const cp = GameState.currentPlayer ? GameState.currentPlayer() : null;
+        const playerRoom = cp ? cp.roomIndex : -1;
+        for (let i = 0; i < this._roomLabels.length; i++) {
+            const label = this._roomLabels[i];
+            if (!label) continue;
+            const show = this.highlightedRooms.includes(i)
+                || i === this.secretHighlight
+                || i === playerRoom;
+            label.visible = show;
+        }
     },
 
     // ─── Event Effect Factories ───────────────────────
