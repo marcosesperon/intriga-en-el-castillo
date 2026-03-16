@@ -523,7 +523,7 @@ const Board3D = {
             z: this._controls.target.z
         };
         this._cameraFocusTargetDest = { x: pos.x, y: 0, z: pos.z };
-        this._cameraFocusDest = { x: pos.x, y: 8, z: pos.z + 4 };
+        this._cameraFocusDest = { x: pos.x, y: 11, z: pos.z + 5.5 };
         this._cameraFocusT = 0;
         this._cameraFocusing = true;
         this._cameraResetting = false;
