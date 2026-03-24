@@ -101,8 +101,8 @@ const CHAOS_EVENTS = new Set([
 
 // Event probability weights by game phase (turn ranges)
 const EVENT_PHASE_WEIGHTS = {
-    early:  { investigacion: 50, castillo: 30, social: 20, caotico: 0 },   // turns 1-3
-    mid:    { investigacion: 35, social: 30, castillo: 25, caotico: 10 },   // turns 4-7
+    early:  { investigacion: 40, castillo: 30, social: 25, caotico: 5 },   // turns 1-3
+    mid:    { investigacion: 25, social: 30, castillo: 25, caotico: 20 },   // turns 4-7
     late:   { social: 30, castillo: 25, investigacion: 20, caotico: 25 }    // turns 8+
 };
 
@@ -122,7 +122,7 @@ const TIME_PERIOD_EVENT_WEIGHTS = {
 };
 
 const TIME_PERIOD_INVESTIGATION_BONUS = {
-    dia: 1.0, atardecer: 1.0, noche: 0.8, madrugada: 1.6
+    dia: 1.0, atardecer: 1.0, noche: 0.8, madrugada: 1.3
 };
 
 const TIME_PERIOD_LIGHTING = {

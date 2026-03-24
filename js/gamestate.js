@@ -224,8 +224,8 @@ const GameState = {
         // Tick narrative events (decrement timers, apply per-turn effects, resolve expired)
         this.tickNarrativeEvents();
 
-        // Random event with 1/8 probability each turn, or forced by combo
-        if (this.comboNextEventId != null || (this.turnCounter > 0 && Math.random() < 1 / 8)) {
+        // Random event with 1/10 probability each turn, or forced by combo
+        if (this.comboNextEventId != null || (this.turnCounter > 0 && Math.random() < 1 / 10)) {
             this._pendingEvent = true;
             this.activeEvent = null;
             this.eventBlockedPassages = false;
@@ -671,7 +671,7 @@ const GameState = {
         // Preferir cartas no vistas; si no hay, usar el pool completo
         const pool = freshCards && freshCards.length > 0 ? freshCards : nonSolution;
 
-        if (Math.random() < 0.6) {
+        if (Math.random() < 0.7) {
             if (pool.length === 0) {
                 return { type: 'evidencia', text: t('clue.solutionOf', { category: this.getCategoryLabel(cat), card: tc(solution) }), cat, card: solution, isReveal: true, round: this.roundNumber };
             }
@@ -751,7 +751,7 @@ const GameState = {
         if (this.narrativeChaoticoBonus > 0) weights.caotico = (weights.caotico || 0) + this.narrativeChaoticoBonus;
         const avgRep = this.players.filter(p => !p.isEliminated).reduce((s, p) => s + p.reputation, 0) / Math.max(1, this.players.filter(p => !p.isEliminated).length);
         if (avgRep < -1) weights.social = (weights.social || 0) + 10;
-        if (this.clueLog.length < 5) weights.investigacion = (weights.investigacion || 0) + 10;
+        if (this.clueLog.length < 3) weights.investigacion = (weights.investigacion || 0) + 5;
         // Weighted random category
         const cat = this._weightedRandomCategory(weights);
         // Find an event of this category in the deck
@@ -871,7 +871,7 @@ const GameState = {
             return pool[Math.floor(Math.random() * pool.length)];
         }
         const tpMult = TIME_PERIOD_INVESTIGATION_BONUS[this.getTimePeriod()] || 1.0;
-        if (Math.random() > 0.15 * tpMult) return null;
+        if (Math.random() > 0.10 * tpMult) return null;
         return pool[Math.floor(Math.random() * pool.length)];
     },
 
