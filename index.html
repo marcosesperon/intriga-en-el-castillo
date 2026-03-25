@@ -157,6 +157,20 @@ body {
     margin-left: auto;
 }
 #help-btn:hover { background: #5a4a28; }
+#audio-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #3a3020;
+    border: 2px solid #c4a878;
+    color: #c4a878;
+    font-size: 16px;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    flex-shrink: 0;
+}
+#audio-btn:hover { background: #5a4a28; }
 
 /* ═══════════════════════════════════════════════════
    LEFT PANEL
@@ -2124,6 +2138,30 @@ body {
     color: #aaa;
 }
 
+#audio-controls-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    margin: 6px 0;
+}
+#audio-mute-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #aaa;
+}
+#audio-mute-icon { font-size: 20px; }
+#audio-mute-toggle.muted #audio-mute-icon { opacity: 0.4; }
+#audio-mute-toggle.muted #audio-mute-label { text-decoration: line-through; opacity: 0.5; }
+#audio-volume-slider {
+    width: 100px;
+    accent-color: #c4a878;
+    cursor: pointer;
+}
+
 #lang-selector-container {
     display: flex;
     align-items: center;
@@ -2760,6 +2798,7 @@ body {
         <div id="time-period-indicator"></div>
         <div id="top-dice"></div>
         <div id="top-room-hover"></div>
+        <button id="audio-btn" onclick="if(typeof Menu!=='undefined')Menu.toggleAudio()">&#x1F50A;</button>
         <button id="help-btn" onclick="UI.openHelp()">?</button>
     </header>
 
@@ -2876,6 +2915,14 @@ body {
         <div id="lang-selector-container">
             <label for="lang-selector" data-i18n="menu.language" style="font-size:16px;color:#aaa">Idioma:</label>
             <select id="lang-selector" style="font-size:14px;padding:4px 8px;background:#2a2218;color:#fff;border:1px solid #6a5838;border-radius:4px;font-family:Georgia,serif"></select>
+        </div>
+        <div id="audio-controls-container">
+            <div id="audio-mute-toggle" onclick="Menu.toggleAudio()">
+                <span id="audio-mute-icon">&#x1F50A;</span>
+                <span id="audio-mute-label" data-i18n="menu.sound">Sonido</span>
+            </div>
+            <input type="range" id="audio-volume-slider" min="0" max="100" value="70"
+                   oninput="Menu.setVolume(this.value / 100)" />
         </div>
         <button id="start-btn" onclick="Menu.startGame()" data-i18n="btn.startGame">Comenzar partida</button>
         <div id="menu-stats" data-i18n-html="menu.stats">

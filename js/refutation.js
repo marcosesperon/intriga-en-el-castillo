@@ -208,6 +208,7 @@ const Refutation = {
                         document.getElementById('refute-status').textContent = t('refute.shows', { name: checker.name });
 
                         // Show card with reveal animation
+                        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/card_flip');
                         document.getElementById('refute-cards').innerHTML =
                             '<div class="refute-revealed-card">' + this._buildCardHtml(card) + '</div>';
                         setTimeout(() => {
@@ -241,6 +242,7 @@ const Refutation = {
     },
 
     _animateRefuteCard(cardEl, card) {
+        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/card_flip');
         // Animate selected card up and then show result
         const otherCards = document.querySelectorAll('#refute-cards .fan-card:not([data-card="' + card + '"])');
 

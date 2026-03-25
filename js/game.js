@@ -9,6 +9,8 @@ const Game = {
         if (!cp.isHuman) return;
         if (GameState.movesRemaining <= 0) return;
 
+        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/footstep');
+
         // Secret passage
         if (SECRET_PASSAGES[cp.roomIndex] === roomIndex && GameState.canUseSecretPassage(cp.id)) {
             GameState.useSecretPassage(cp.id);
@@ -43,6 +45,7 @@ const Game = {
     },
 
     afterMove() {
+        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/door');
         const cp = GameState.currentPlayer();
         // Check room trap
         if (GameState.roomTraps && GameState.roomTraps[cp.roomIndex] != null && GameState.roomTraps[cp.roomIndex] !== cp.id) {
@@ -419,12 +422,14 @@ const Game = {
 
     onAccusationComplete(correct) {
         if (correct) {
+            if (typeof AudioManager !== 'undefined') { AudioManager.stopAll(); AudioManager.play('sfx/success'); }
             GameState.gameOver = true;
             GameState.winner = GameState.currentPlayer();
             GameState.addLog(t('log.accusationCorrect', { name: GameState.currentPlayer().name }));
             UI.updateLog();
             UI.showResult();
         } else {
+            if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/fail');
             const cp = GameState.currentPlayer();
             Reputation.applyAccusationFailure(cp.id);
             Board.draw();

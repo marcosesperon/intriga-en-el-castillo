@@ -88,6 +88,33 @@ const Menu = {
         document.getElementById('manual-notebook-checkbox').textContent = this.manualNotebook ? '\u2713' : '';
     },
 
+    toggleAudio() {
+        if (typeof AudioManager === 'undefined') return;
+        const muted = AudioManager.toggleMute();
+        const toggle = document.getElementById('audio-mute-toggle');
+        const icon = document.getElementById('audio-mute-icon');
+        if (toggle) toggle.classList.toggle('muted', muted);
+        if (icon) icon.textContent = muted ? '\u{1F507}' : '\u{1F50A}';
+        // Sync in-game button too
+        const btn = document.getElementById('audio-btn');
+        if (btn) btn.textContent = muted ? '\u{1F507}' : '\u{1F50A}';
+    },
+
+    setVolume(val) {
+        if (typeof AudioManager === 'undefined') return;
+        AudioManager.setMasterVolume(val);
+    },
+
+    initAudioControls() {
+        if (typeof AudioManager === 'undefined') return;
+        const slider = document.getElementById('audio-volume-slider');
+        if (slider) slider.value = Math.round(AudioManager.volumes.master * 100);
+        const toggle = document.getElementById('audio-mute-toggle');
+        if (toggle && AudioManager.muted) toggle.classList.add('muted');
+        const icon = document.getElementById('audio-mute-icon');
+        if (icon) icon.textContent = AudioManager.muted ? '\u{1F507}' : '\u{1F50A}';
+    },
+
     // ── Deferred script loading ──────────────────
 
     _loadScript(src) {
@@ -108,13 +135,14 @@ const Menu = {
             { src: 'js/reputation.js',          label: t('loading.reputation') || 'Sistema de reputación' },
             { src: 'js/inventory.js',           label: t('loading.inventory') || 'Inventario de objetos' },
             { src: 'js/stories.js',             label: t('loading.stories') || 'Historias del castillo' },
+            { src: 'js/audio.js',               label: t('loading.audio') || 'Sistema de audio' },
             { src: 'js/ai.js',                  label: t('loading.ai') || 'Entrenando a los rivales' },
             { src: 'js/board.js',               label: t('loading.board') || 'Montando el tablero' },
             { src: 'js/ui.js',                  label: t('loading.ui') || 'Preparando la interfaz' },
             { src: 'js/refutation.js',          label: t('loading.refutation') || 'Sistema de refutación' },
             { src: 'js/game.js',                label: t('loading.game') || 'Motor del juego' }
         ];
-        // 11 game scripts + 3 Three.js/board scripts = 14 total steps
+        // 12 game scripts + 3 Three.js/board scripts = 15 total steps
         const totalSteps = scripts.length + 3;
         let step = 0;
 
@@ -187,6 +215,12 @@ const Menu = {
             this._updateLoadingProgress(step, total, label);
         }).then(() => {
             this._scriptsLoaded = true;
+            // Initialize and preload audio
+            if (typeof AudioManager !== 'undefined') {
+                AudioManager.init();
+                AudioManager.preload();
+                this.initAudioControls();
+            }
             this._hideLoadingOverlay();
             this._initGame();
         }).catch(err => {
@@ -219,6 +253,12 @@ const Menu = {
         // Ensure 3D render loop is running (may have been stopped by backToMenu)
         if (typeof Board3D !== 'undefined' && Board3D._initialized) {
             Board3D.startRenderLoop();
+        }
+
+        // Start gameplay audio
+        if (typeof AudioManager !== 'undefined') {
+            AudioManager.playMusic('music/gameplay', { fadeIn: 2000 });
+            AudioManager.playAmbient('ambient/castle');
         }
 
         Board.updateHighlights();

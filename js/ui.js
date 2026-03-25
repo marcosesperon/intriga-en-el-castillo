@@ -517,6 +517,7 @@ const UI = {
         if (GameState.phase !== PHASES.ROLL_DICE) return;
         const cp = GameState.currentPlayer();
         if (!cp.isHuman) return;
+        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/dice_roll');
         const val = GameState.rollDice(chosenValue || undefined);
         const penalty = GameState.eventDicePenalty + (GameState.narrativeDicePenalty || 0);
         const effective = GameState.movesRemaining;
@@ -528,6 +529,7 @@ const UI = {
         }
 
         this.showDiceAnimation(val, () => {
+            if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/dice_land');
             // Keep camera focused on player during movement phase
             Board.updateHighlights();
             Board.draw();
@@ -2230,6 +2232,7 @@ const UI = {
     },
 
     showItemPickup(pickupResult, callback) {
+        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/item_pickup');
         const { itemDef, inventoryFull } = pickupResult;
         const cp = GameState.currentPlayer();
 
@@ -2336,6 +2339,7 @@ const UI = {
 
     // Helper: show event in unified overlay system
     _showEventOverlay(panel, html, variantClass, callback, boardEffect) {
+        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/notification');
         const overlay = document.getElementById('event-toast');
         panel.className = 'overlay-panel' + (variantClass ? ' ' + variantClass : '');
         panel.innerHTML = html;
@@ -2493,6 +2497,7 @@ const UI = {
     },
 
     showStoryDiscovery(storyDef, callback) {
+        if (typeof AudioManager !== 'undefined') AudioManager.play('sfx/story');
         const panel = document.getElementById('event-toast-panel');
         const catEmoji = STORY_CATEGORY_EMOJI[storyDef.category] || '\u{1F4D6}';
         const catLabel = t('story.cat.' + storyDef.category);
