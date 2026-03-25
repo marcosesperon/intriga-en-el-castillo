@@ -291,13 +291,13 @@ const Refutation = {
         Reputation.change(0, 1);
         this._setPortraitState(0, 'refutes');
 
-        // Show the card you revealed
+        // Show the card you revealed briefly, then auto-continue
         document.getElementById('refute-cards').innerHTML =
             '<div class="refute-revealed-card show">' + this._buildCardHtml(card) + '</div>';
         document.getElementById('refute-tip').innerHTML = '';
         document.getElementById('refute-status').textContent = t('refute.youShowed', { card: tc(card) });
         UI.updateLog();
-        this.showContinue();
+        setTimeout(() => this.finish(), 1200);
     },
 
     showFinal() {
