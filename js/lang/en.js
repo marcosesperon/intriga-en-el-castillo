@@ -1437,5 +1437,101 @@ I18n.register('en', {
     'roomEvent.relo_4.desc': 'A sudden chime disorients everyone, but you use the confusion for extra movement.',
     'roomEvent.relo_5.name': 'Frozen Hands',
     'roomEvent.relo_5.desc': 'The clock hands have stopped, and dust settles on the silent mechanism.',
-    'roomEvent.relo_5.flavor': 'The stillness is eerie — as if time itself has paused in this forgotten tower.'
+    'roomEvent.relo_5.flavor': 'The stillness is eerie — as if time itself has paused in this forgotten tower.',
+
+    // ═══════════════════════════════════════════
+    // CASTLE STORIES SYSTEM
+    // ═══════════════════════════════════════════
+
+    'story.cat.curiosidad': 'Curiosity',
+    'story.cat.rumor_pasado': 'Old Rumor',
+    'story.cat.anecdota': 'Anecdote',
+    'story.cat.leyenda': 'Legend',
+    'story.cat.chisme': 'Current Gossip',
+
+    'story.rarity.comun': 'Common',
+    'story.rarity.raro': 'Rare',
+    'story.rarity.legendario': 'Legendary',
+
+    'story.disclaimer': 'Castle story — does not affect the investigation.',
+    'story.ambiguousHint': 'Hmm... could this be relevant to the case?',
+    'story.seriesPart': 'Part {part} of {total}',
+    'story.collection.title': 'Castle Stories',
+    'story.collection.count': '{count} of {total}',
+    'story.undiscovered': '???',
+    'story.found': '{name} discovered a castle story.',
+
+    // ── CURIOSIDADES ───────────────────────────
+    'story.cur_reloj_torre.text': 'The tower clock stopped the night of an ancient murder. No one has dared to repair it since.',
+    'story.cur_baldosas_trono.text': 'The Throne Room has exactly 73 stone tiles. An ancient architect arranged them in a pattern that supposedly hides a message.',
+    'story.cur_escudo_armeria.text': 'One of the armory shields has a dent that no blacksmith has been able to repair. They say it was caused by a creature, not a man.',
+    'story.cur_gato_biblioteca.text': 'An old black cat lives among the library shelves. The servants swear it has been there longer than should be possible.',
+    'story.cur_fuente_jardines.text': 'The garden fountain has inscriptions in a language no one can translate. The water is always ice cold, even in summer.',
+    'story.cur_campana_capilla.text': 'The chapel bell rings by itself some nights. The sacristan insists it is the wind, but no one quite believes him.',
+    'story.cur_receta_cocina.text': 'There is a recipe carved into the kitchen wall that no one dares to prepare. The ingredients mentioned exist in no known herbal.',
+    'story.cur_eco_mazmorras.text': 'The dungeons have a peculiar echo: if you shout your name, the voice that returns is not quite your own.',
+    'story.cur_mural_consejo.text': 'There is a mural in the Council Chamber with the faces of ancient advisors. One face was erased with such fury that the stone itself was damaged.',
+    'story.cur_ventana_torre.text': 'From the highest window of the Wizard\'s Tower you can see the ruins of another castle in the distance. No map records any structure there.',
+    'story.cur_pasadizo_olvidado.text': 'There is a passage between the tower and the dungeons that was sealed generations ago. The original plans show it clearly, but no one remembers why it was closed.',
+    'story.cur_inscripcion_trono.text': 'Beneath the throne there is a nearly worn inscription: "He who sits here carries the sins of all who came before".',
+
+    // ── RUMORES DEL PASADO ─────────────────────
+    'story.rum_noble_mazmorras.text': 'They say a nobleman vanished in the dungeons years ago. Some believe he still wanders the deepest tunnels.',
+    'story.rum_incendio_cocina.text': 'A fire devastated the kitchen decades ago. Since then, cooks say the oven fire sometimes flares up on its own at night.',
+    'story.rum_libro_prohibido.text': 'In the library there is a shelf that remains locked. It is rumored to hold a book that predicts the future of the realm.',
+    'story.rum_duelo_jardin.text': 'The gardens were the scene of a secret duel between two nobles. Only one walked away, and the other\'s body was never found.',
+    'story.rum_fantasma_capilla.text': 'A monk was seen praying in the chapel years after his death. Those who saw him say his lips moved but no sound came out.',
+    'story.rum_tesoro_perdido.text': 'A legend speaks of a treasure hidden between the wizard\'s tower and the dungeons. Many have searched; none have found it.',
+    'story.rum_consejero_traidor.text': 'An old diary mentions a traitor within the royal council. The page with their name was torn out.',
+    'story.rum_pacto_antiguo.text': 'They say the castle founders made a pact with someone... or something. The terms were lost to time.',
+    'story.rum_armero_loco.text': 'The old castle armorer went mad suddenly. Before vanishing, he forged a sword that no one can lift.',
+    'story.rum_rey_insomne.text': 'The previous king never slept in the same room two nights in a row. He said "something" visited him in dreams.',
+
+    // ── ANÉCDOTAS DE PERSONAJES ────────────────
+    'story.ane_cocinero_veneno.text': 'The cook was accused of poisoning years ago, but nothing was ever proven. Since then he cooks with gloves and tastes every dish three times.',
+    'story.ane_guardia_noche.text': 'Some guards avoid patrolling the dungeons at night. The captain says it is superstition, but he doesn\'t patrol them either.',
+    'story.ane_bufon_secretos.text': 'The castle jester keeps a diary where he writes down everything he overhears. He claims it is "material for his jokes," but no one is sure.',
+    'story.ane_sacerdotisa_sueno.text': 'The priestess claims to have had a prophetic dream the eve of every tragedy in the castle. No one wants to ask what she dreamt last night.',
+    'story.ane_alquimista_exp.text': 'The alchemist once created a potion that made whatever it touched invisible. Unfortunately he spilled the formula and now cannot find it.',
+    'story.ane_embajador_carta.text': 'The ambassador receives letters sealed with black wax that he always reads alone. A servant claims to have seen him burn one with a look of terror.',
+    'story.ane_reina_jardin.text': 'The queen has a rose in the gardens she tends personally. She speaks to it as if it could hear.',
+    'story.ane_capitan_cicatriz.text': 'The captain of the guard has a scar across his back. He says it was from battle, but an old soldier tells a different story.',
+    'story.ane_caballero_juramento.text': 'The royal knight made a secret oath at the chapel altar. Only he and God know the words, but he changed completely that day.',
+    'story.ane_sirviente_llave.text': 'A servant always wears a key around his neck that fits no known lock in the castle.',
+
+    // ── LEYENDAS ───────────────────────────────
+    'story.ley_figura_torre.text': 'Some swear they see a figure in the wizard\'s tower window on nights of the full moon. The alchemist insists it is not him.',
+    'story.ley_tuneles_castillo.text': 'They say there are tunnels beneath the castle that no one has fully explored. Those who ventured too deep came back... changed.',
+    'story.ley_espejo_capilla.text': 'An ancient mirror in the chapel was covered with black cloth generations ago. The order was: "Never uncover it."',
+    'story.ley_voz_biblioteca.text': 'A servant claims to have heard voices in the library when it was completely empty. The voices were arguing about the fate of the realm.',
+    'story.ley_rosa_eterna.text': 'Deep in the gardens grows a rose that never withers. The kingdom\'s botanists cannot explain it.',
+    'story.ley_pasos_vacios.text': 'Footsteps echo in the hallways even when they are empty. The castle elders say they are the old kings, still keeping watch.',
+    'story.ley_sombra_armeria.text': 'A shadow moves among the armory suits at night. It belongs to no one... at least, no one living.',
+    'story.ley_llama_cocina.text': 'The main oven flame in the kitchen has never gone out. The cooks say it has been burning since the castle was founded.',
+
+    // ── CHISMES ACTUALES ───────────────────────
+    'story.chi_dama_capitan.text': 'The court lady had a heated argument with the captain of the guard yesterday. No one knows the reason, but they have been avoiding each other.',
+    'story.chi_cocinero_ingredientes.text': 'The cook keeps ingredients that do not appear in the official records. He calls them "exotic spices," but hides them as if they were something else.',
+    'story.chi_guardia_mazmorras.text': 'A guard was seen going down to the dungeons at an unusual hour, carrying a covered basket. When asked, he said it was his lunch.',
+    'story.chi_embajador_biblioteca.text': 'The ambassador has been seen visiting the library at very late hours. He was looking for something specific, but would not say what.',
+    'story.chi_bufon_llora.text': 'Someone saw the jester crying in the gardens when he thought he was alone. Upon noticing them, he smiled again as if nothing had happened.',
+    'story.chi_sirvientes_noche.text': 'The servants gather secretly at night in the kitchen. They say they just play dice, but they always go quiet when someone approaches.',
+    'story.chi_consejero_ausente.text': 'One of the advisors has missed the last three council meetings. His excuse was different each time.',
+    'story.chi_reina_discusion.text': 'The queen was heard arguing with someone in the chapel, but when they entered she was alone. She said she was "praying aloud."',
+    'story.chi_alquimista_humo.text': 'Purple smoke poured from the wizard\'s tower in the middle of the night. The next day the alchemist had singed eyebrows.',
+    'story.chi_capitan_armeria.text': 'The captain of the guard was seen sharpening a dagger in the armory late at night. Not unusual, but he seemed... nervous.',
+
+    // ── SERIES: The Alchemist's Secret ─────────
+    'story.serie_alq_1.text': 'In a dusty corner of the tower, you find a note from the alchemist: "I have discovered something that should not exist. I must hide it where no one would look."',
+    'story.serie_alq_2.text': 'A book in the library has marginal notes by the alchemist: "The ancient texts confirm my suspicions. The formula works, but the price is too high."',
+    'story.serie_alq_3.text': 'Deep in the dungeons, behind a loose stone, there is a sealed vial with a glowing substance and a note: "If you are reading this, it is already too late. Or too soon."',
+
+    // ── SERIES: The Lost Queen ─────────────────
+    'story.serie_reina_1.text': 'In the chapel there is a memorial plaque dedicated to a queen whose name has been erased. The dates indicate she ruled for only one year.',
+    'story.serie_reina_2.text': 'Behind a tapestry in the Throne Room hangs a hidden portrait of a crowned woman. On the back, a single word: "Forgive me."',
+
+    // ── SERIES: The Jester's Diary ─────────────
+    'story.serie_bufon_1.text': 'You find a loose page from the jester\'s diary: "Day 47. I sit near the throne and no one looks at me. But I see everything. Absolutely everything."',
+    'story.serie_bufon_2.text': 'Another diary page hidden in the kitchen: "Day 112. The servants talk when they think no one is listening. I have learned more here than in any council chamber."',
+    'story.serie_bufon_3.text': 'The last diary page, folded among garden leaves: "Day 200. I know too much. Laughter is my shield, but even shields break."'
 });

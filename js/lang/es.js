@@ -1554,5 +1554,104 @@ I18n.register('es', {
 
     'roomEvent.relo_5.name': 'Hora detenida',
     'roomEvent.relo_5.desc': 'El reloj se ha detenido en una hora concreta, como si el tiempo mismo contuviera el aliento.',
-    'roomEvent.relo_5.flavor': 'Las agujas señalan las tres en punto. El péndulo está inmóvil. El silencio es absoluto, como si el castillo entero esperase algo.'
+    'roomEvent.relo_5.flavor': 'Las agujas señalan las tres en punto. El péndulo está inmóvil. El silencio es absoluto, como si el castillo entero esperase algo.',
+
+    // ═══════════════════════════════════════════
+    // CASTLE STORIES SYSTEM
+    // ═══════════════════════════════════════════
+
+    // Categories
+    'story.cat.curiosidad': 'Curiosidad',
+    'story.cat.rumor_pasado': 'Rumor del pasado',
+    'story.cat.anecdota': 'Anécdota',
+    'story.cat.leyenda': 'Leyenda',
+    'story.cat.chisme': 'Chisme actual',
+
+    // Rarity
+    'story.rarity.comun': 'Común',
+    'story.rarity.raro': 'Raro',
+    'story.rarity.legendario': 'Legendario',
+
+    // UI
+    'story.disclaimer': 'Historia del castillo — no afecta la investigación.',
+    'story.ambiguousHint': 'Hmm... ¿será relevante para el caso?',
+    'story.seriesPart': 'Parte {part} de {total}',
+    'story.collection.title': 'Historias del Castillo',
+    'story.collection.count': '{count} de {total}',
+    'story.undiscovered': '???',
+    'story.found': '{name} descubrió una historia del castillo.',
+
+    // ── CURIOSIDADES ───────────────────────────
+    'story.cur_reloj_torre.text': 'El reloj de la torre se detuvo la noche de un antiguo asesinato. Nadie se ha atrevido a repararlo desde entonces.',
+    'story.cur_baldosas_trono.text': 'El Salón del Trono tiene exactamente 73 baldosas de piedra. Un antiguo arquitecto las dispuso en un patrón que, según dicen, oculta un mensaje.',
+    'story.cur_escudo_armeria.text': 'Uno de los escudos de la armería tiene una abolladura que ningún herrero ha podido reparar. Se dice que la causó una criatura, no un hombre.',
+    'story.cur_gato_biblioteca.text': 'Un viejo gato negro vive entre las estanterías de la biblioteca. Los sirvientes juran que lleva ahí más años de los que debería ser posible.',
+    'story.cur_fuente_jardines.text': 'La fuente de los jardines tiene inscripciones en un idioma que nadie ha logrado traducir. El agua que brota siempre está helada, incluso en verano.',
+    'story.cur_campana_capilla.text': 'La campana de la capilla suena sola algunas noches. El sacristán insiste en que es el viento, pero nadie le cree del todo.',
+    'story.cur_receta_cocina.text': 'En la cocina hay una receta tallada en la pared que nadie se atreve a preparar. Los ingredientes mencionados no existen en ningún herbolario conocido.',
+    'story.cur_eco_mazmorras.text': 'Las mazmorras tienen un eco peculiar: si gritas tu nombre, dicen que la voz que regresa no es del todo la tuya.',
+    'story.cur_mural_consejo.text': 'Hay un mural en la Sala del Consejo con los rostros de antiguos consejeros. Uno de los rostros fue borrado con tal saña que la piedra quedó dañada.',
+    'story.cur_ventana_torre.text': 'Desde la ventana más alta de la Torre del Mago se pueden ver las ruinas de otro castillo en la distancia. Los mapas no registran ninguna construcción allí.',
+    'story.cur_pasadizo_olvidado.text': 'Existe un pasadizo entre la torre y las mazmorras que fue sellado hace generaciones. Los planos originales del castillo lo muestran claramente, pero nadie recuerda por qué se cerró.',
+    'story.cur_inscripcion_trono.text': 'Debajo del trono hay una inscripción casi borrada que dice: "El que se siente aquí carga con los pecados de todos los anteriores".',
+
+    // ── RUMORES DEL PASADO ─────────────────────
+    'story.rum_noble_mazmorras.text': 'Se dice que un noble desapareció en las mazmorras hace años. Algunos creen que aún vaga por los túneles más profundos.',
+    'story.rum_incendio_cocina.text': 'Un incendio devastó la cocina hace décadas. Desde entonces, los cocineros cuentan que el fuego de los hornos a veces se aviva solo por las noches.',
+    'story.rum_libro_prohibido.text': 'En la biblioteca hay un estante que permanece cerrado con llave. Se rumorea que contiene un libro que predice el futuro del reino.',
+    'story.rum_duelo_jardin.text': 'Los jardines fueron escenario de un duelo secreto entre dos nobles. Solo uno salió caminando, y nunca se encontró el cuerpo del otro.',
+    'story.rum_fantasma_capilla.text': 'Un monje fue visto rezando en la capilla años después de su muerte. Quienes lo han visto dicen que sus labios se mueven pero no emite sonido alguno.',
+    'story.rum_tesoro_perdido.text': 'Una leyenda habla de un tesoro escondido entre la torre del mago y las mazmorras. Muchos lo han buscado, ninguno lo ha encontrado.',
+    'story.rum_consejero_traidor.text': 'Un antiguo diario menciona a un traidor dentro del consejo real. La página con su nombre fue arrancada.',
+    'story.rum_pacto_antiguo.text': 'Se dice que los fundadores del castillo hicieron un pacto con alguien... o algo. Los términos se perdieron con el tiempo.',
+    'story.rum_armero_loco.text': 'El antiguo armero del castillo enloqueció de repente. Antes de desaparecer, forjó una espada que nadie puede levantar.',
+    'story.rum_rey_insomne.text': 'El rey anterior nunca dormía en la misma habitación dos noches seguidas. Decía que "algo" lo visitaba en sueños.',
+
+    // ── ANÉCDOTAS DE PERSONAJES ────────────────
+    'story.ane_cocinero_veneno.text': 'El cocinero fue acusado de envenenamiento hace años, pero nunca se probó nada. Desde entonces cocina con guantes y prueba cada plato tres veces.',
+    'story.ane_guardia_noche.text': 'Algunos guardias evitan patrullar las mazmorras por la noche. El capitán dice que es superstición, pero él tampoco lo hace.',
+    'story.ane_bufon_secretos.text': 'El bufón del castillo lleva un diario donde anota todo lo que escucha. Dice que es "material para sus bromas", pero nadie está seguro.',
+    'story.ane_sacerdotisa_sueno.text': 'La sacerdotisa afirma haber tenido un sueño profético la víspera de cada tragedia en el castillo. Nadie quiere preguntarle qué soñó anoche.',
+    'story.ane_alquimista_exp.text': 'El alquimista una vez creó una poción que hacía invisible lo que tocaba. Desafortunadamente, derramó la fórmula y ahora no puede encontrarla.',
+    'story.ane_embajador_carta.text': 'El embajador recibe cartas selladas con lacre negro que siempre lee a solas. Un sirviente dice haberle visto quemar una con expresión de terror.',
+    'story.ane_reina_jardin.text': 'La reina tiene una rosa en los jardines que cuida personalmente. Habla con ella como si pudiera escucharla.',
+    'story.ane_capitan_cicatriz.text': 'El capitán de la guardia tiene una cicatriz que cruza su espalda. Dice que fue en batalla, pero un viejo soldado cuenta otra historia.',
+    'story.ane_caballero_juramento.text': 'El caballero real hizo un juramento secreto ante el altar de la capilla. Solo él y Dios saben sus palabras, pero desde ese día cambió por completo.',
+    'story.ane_sirviente_llave.text': 'Un sirviente lleva siempre una llave colgada al cuello que no corresponde a ninguna cerradura conocida del castillo.',
+
+    // ── LEYENDAS ───────────────────────────────
+    'story.ley_figura_torre.text': 'Algunos aseguran ver una figura en la ventana de la torre del mago durante las noches de luna llena. El alquimista jura que no es él.',
+    'story.ley_tuneles_castillo.text': 'Se dice que hay túneles bajo el castillo que nadie ha explorado del todo. Los que se adentraron demasiado volvieron... diferentes.',
+    'story.ley_espejo_capilla.text': 'Un antiguo espejo en la capilla fue cubierto con una tela negra hace generaciones. La orden fue: "No lo destapéis jamás".',
+    'story.ley_voz_biblioteca.text': 'Un sirviente afirma haber escuchado voces en la biblioteca cuando estaba completamente vacía. Las voces discutían sobre el destino del reino.',
+    'story.ley_rosa_eterna.text': 'En lo más profundo de los jardines crece una rosa que nunca se marchita. Los botánicos del reino no pueden explicarlo.',
+    'story.ley_pasos_vacios.text': 'Se escuchan pasos en los pasillos incluso cuando están vacíos. Los más viejos del castillo dicen que son los antiguos reyes que aún vigilan.',
+    'story.ley_sombra_armeria.text': 'Una sombra se mueve entre las armaduras de la armería por las noches. No pertenece a nadie... al menos a nadie vivo.',
+    'story.ley_llama_cocina.text': 'La llama del horno principal de la cocina nunca se ha apagado. Los cocineros dicen que lleva encendida desde que se fundó el castillo.',
+
+    // ── CHISMES ACTUALES ───────────────────────
+    'story.chi_dama_capitan.text': 'La dama de la corte discutió acaloradamente con el capitán de la guardia ayer. Nadie sabe el motivo, pero ambos se evitan desde entonces.',
+    'story.chi_cocinero_ingredientes.text': 'El cocinero guarda ingredientes que no aparecen en los registros oficiales. Dice que son "especias exóticas", pero las esconde como si fueran otra cosa.',
+    'story.chi_guardia_mazmorras.text': 'Un guardia fue visto bajando a las mazmorras a una hora inusual, llevando una cesta tapada. Cuando le preguntaron, dijo que era su almuerzo.',
+    'story.chi_embajador_biblioteca.text': 'El embajador ha sido visto visitando la biblioteca a horas muy tardías. Buscaba algo específico, pero no dijo qué.',
+    'story.chi_bufon_llora.text': 'Alguien vio al bufón llorando en los jardines cuando creía que estaba solo. Al notar la presencia, volvió a sonreír como si nada.',
+    'story.chi_sirvientes_noche.text': 'Los sirvientes se reúnen en secreto por las noches en la cocina. Dicen que solo juegan a los dados, pero siempre callan cuando alguien se acerca.',
+    'story.chi_consejero_ausente.text': 'Uno de los consejeros faltó a las últimas tres reuniones del consejo. Su excusa fue diferente cada vez.',
+    'story.chi_reina_discusion.text': 'La reina fue escuchada discutiendo con alguien en la capilla, pero cuando entraron solo estaba ella. Dijo que "rezaba en voz alta".',
+    'story.chi_alquimista_humo.text': 'Un humo púrpura salió de la torre del mago en mitad de la noche. Al día siguiente el alquimista tenía las cejas chamuscadas.',
+    'story.chi_capitan_armeria.text': 'El capitán de la guardia fue visto afilando una daga en la armería a altas horas. No es inusual, pero parecía... nervioso.',
+
+    // ── SERIES: El Secreto del Alquimista ──────
+    'story.serie_alq_1.text': 'En un rincón polvoriento de la torre, encuentras una nota del alquimista: "He descubierto algo que no debería existir. Debo ocultarlo donde nadie buscaría".',
+    'story.serie_alq_2.text': 'Un libro en la biblioteca tiene anotaciones al margen del alquimista: "Los textos antiguos confirman mis sospechas. La fórmula funciona, pero el precio es demasiado alto".',
+    'story.serie_alq_3.text': 'En lo más profundo de las mazmorras, detrás de una piedra suelta, hay un frasco sellado con una sustancia brillante y una nota: "Si estás leyendo esto, ya es demasiado tarde. O demasiado pronto".',
+
+    // ── SERIES: La Reina Perdida ───────────────
+    'story.serie_reina_1.text': 'En la capilla hay una placa conmemorativa dedicada a una reina cuyo nombre ha sido borrado. Las fechas indican que reinó solo un año.',
+    'story.serie_reina_2.text': 'Detrás de un tapiz del Salón del Trono hay un retrato oculto de una mujer con corona. En el reverso, una sola palabra: "Perdonadme".',
+
+    // ── SERIES: Diario del Bufón ───────────────
+    'story.serie_bufon_1.text': 'Encuentras una página suelta del diario del bufón: "Día 47. Me siento cerca del trono y nadie me mira. Pero yo lo veo todo. Absolutamente todo".',
+    'story.serie_bufon_2.text': 'Otra página del diario aparece escondida en la cocina: "Día 112. Los sirvientes hablan cuando creen que nadie escucha. He aprendido más aquí que en cualquier sala del consejo".',
+    'story.serie_bufon_3.text': 'La última página del diario, doblada entre las hojas de un arbusto del jardín: "Día 200. Sé demasiado. La risa es mi escudo, pero incluso los escudos se rompen".'
 });

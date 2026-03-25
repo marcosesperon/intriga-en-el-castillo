@@ -1132,6 +1132,7 @@ const UI = {
             ${GameState.helpEnabled ? '<div class="help-tip-inline">' + t('help.NOTEBOOK') + '</div>' : ''}
             <div class="notebook-legend">${t('notebook.legend')}</div>
             ${clueLogHtml}
+            ${this._buildStoryCollectionHtml()}
             <div class="overlay-buttons">
                 <button class="btn-secondary" onclick="UI.closeNotebook()">${t('btn.close')}</button>
             </div>
@@ -1941,20 +1942,37 @@ const UI = {
             GameState.roomActionUsedThisTurn = true;
             this.updateMiniNotebook();
             const cp = GameState.currentPlayer();
+
+            // Chain: item pickup → story → room event → end turn
+            const afterStory = () => {
+                Game.checkRoomEvent(cp, () => Game.endTurn());
+            };
+
+            const afterPickup = () => {
+                // Try story discovery after item pickup
+                const story = (typeof Stories !== 'undefined') ? Stories.tryStory(cp.id, cp.roomIndex) : null;
+                if (story && cp.isHuman) {
+                    this.showStoryDiscovery(story, afterStory);
+                    return;
+                }
+                if (story && !cp.isHuman) {
+                    GameState.addLog(t('story.found', { name: cp.name }));
+                    this.updateLog();
+                }
+                afterStory();
+            };
+
             // Try item pickup after room action
             const pickup = (typeof Inventory !== 'undefined') ? Inventory.tryPickup(cp.id, cp.roomIndex) : null;
             if (pickup && cp.isHuman) {
-                this.showItemPickup(pickup, () => {
-                    Game.checkRoomEvent(cp, () => Game.endTurn());
-                });
+                this.showItemPickup(pickup, afterPickup);
                 return;
             }
             if (pickup && !cp.isHuman) {
                 GameState.addLog(t('log.botFoundItem', { name: cp.name, item: t('item.' + pickup.itemDef.id + '.name') }));
                 this.updateLog();
             }
-            // Check for room-specific event after action
-            Game.checkRoomEvent(cp, () => Game.endTurn());
+            afterPickup();
         });
     },
 
@@ -2435,6 +2453,68 @@ const UI = {
             </div>
         `;
         this._showEventOverlay(panel, html, 'narrative-resolution', callback);
+    },
+
+    // ═══════════════════════════════════════════
+    // CASTLE STORIES
+    // ═══════════════════════════════════════════
+
+    _buildStoryCollectionHtml() {
+        if (typeof STORY_CATALOG === 'undefined') return '';
+        const collected = GameState.players[0].collectedStories || [];
+        if (collected.length === 0 && GameState.turnCounter < 3) return ''; // Don't show section until first story or a few turns in
+        const total = STORY_CATALOG.length;
+        let html = '<div class="story-collection-section">';
+        html += '<div class="story-collection-title">' + STORY_CATEGORY_EMOJI.curiosidad + ' '
+            + t('story.collection.title') + ' <span class="story-collection-count">'
+            + t('story.collection.count', { count: collected.length, total: total }) + '</span></div>';
+
+        for (const cat of STORY_CATEGORIES) {
+            const storiesInCat = STORY_CATALOG.filter(s => s.category === cat);
+            const found = storiesInCat.filter(s => collected.includes(s.id));
+            if (storiesInCat.length === 0) continue;
+            html += '<div class="story-cat-group">';
+            html += '<div class="story-cat-header">' + (STORY_CATEGORY_EMOJI[cat] || '') + ' ' + t('story.cat.' + cat) + ' (' + found.length + '/' + storiesInCat.length + ')</div>';
+            for (const s of storiesInCat) {
+                const seen = collected.includes(s.id);
+                const rarityClass = 'story-rarity-dot ' + s.rarity;
+                if (seen) {
+                    const text = t('story.' + s.id + '.text');
+                    const shortText = text.length > 80 ? text.substring(0, 77) + '...' : text;
+                    html += '<div class="story-entry found"><span class="' + rarityClass + '"></span>' + shortText + '</div>';
+                } else {
+                    html += '<div class="story-entry undiscovered"><span class="' + rarityClass + '"></span>' + t('story.undiscovered') + '</div>';
+                }
+            }
+            html += '</div>';
+        }
+        html += '</div>';
+        return html;
+    },
+
+    showStoryDiscovery(storyDef, callback) {
+        const panel = document.getElementById('event-toast-panel');
+        const catEmoji = STORY_CATEGORY_EMOJI[storyDef.category] || '\u{1F4D6}';
+        const catLabel = t('story.cat.' + storyDef.category);
+        const rarityLabel = t('story.rarity.' + storyDef.rarity);
+        const seriesHtml = storyDef.series
+            ? '<div class="story-series-badge">' + t('story.seriesPart', { part: storyDef.series.part, total: storyDef.series.total }) + '</div>'
+            : '';
+        const ambiguousHtml = storyDef.ambiguous
+            ? '<div class="story-ambiguous-note">' + t('story.ambiguousHint') + '</div>'
+            : '';
+        const html = `
+            <div class="overlay-title" style="color:#C9A96E">${catEmoji} ${catLabel}</div>
+            <div class="story-rarity-badge ${storyDef.rarity}">${rarityLabel}</div>
+            ${seriesHtml}
+            <div class="event-desc">${t('story.' + storyDef.id + '.text')}</div>
+            ${ambiguousHtml}
+            <div class="story-disclaimer">${t('story.disclaimer')}</div>
+            <div class="overlay-buttons">
+                <button class="btn-primary" id="event-toast-continue">${t('btn.continue')}</button>
+            </div>
+        `;
+        this._showEventOverlay(panel, html, 'story-event', callback);
     },
 
     updateNarrativeIndicator() {

@@ -107,13 +107,14 @@ const Menu = {
             { src: 'js/gamestate.js',           label: t('loading.gamestate') || 'Preparando la partida' },
             { src: 'js/reputation.js',          label: t('loading.reputation') || 'Sistema de reputación' },
             { src: 'js/inventory.js',           label: t('loading.inventory') || 'Inventario de objetos' },
+            { src: 'js/stories.js',             label: t('loading.stories') || 'Historias del castillo' },
             { src: 'js/ai.js',                  label: t('loading.ai') || 'Entrenando a los rivales' },
             { src: 'js/board.js',               label: t('loading.board') || 'Montando el tablero' },
             { src: 'js/ui.js',                  label: t('loading.ui') || 'Preparando la interfaz' },
             { src: 'js/refutation.js',          label: t('loading.refutation') || 'Sistema de refutación' },
             { src: 'js/game.js',                label: t('loading.game') || 'Motor del juego' }
         ];
-        // 10 game scripts + 3 Three.js/board scripts = 13 total steps
+        // 11 game scripts + 3 Three.js/board scripts = 14 total steps
         const totalSteps = scripts.length + 3;
         let step = 0;
 

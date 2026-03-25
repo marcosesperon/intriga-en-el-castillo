@@ -76,6 +76,7 @@ const GameState = {
         this._eventResultText = null;
         this._eventDeclarations = null;
         this.clueLog = [];
+        this.storyLog = [];
         this.roomActionUsedThisTurn = false;
         this._pendingEvent = false;
         this.chaosLevel = 0;
@@ -117,6 +118,7 @@ const GameState = {
                 notebook: this.createEmptyNotebook(),
                 notebookNotes: {},
                 seenCards: [],
+                collectedStories: [],
                 color: isHuman ? SELECTABLE_COLORS[humanColorIdx].css : botColors[i - 1].css,
                 colorHex: isHuman ? SELECTABLE_COLORS[humanColorIdx].hex : botColors[i - 1].hex,
                 reputation: 0,
